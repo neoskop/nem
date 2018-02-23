@@ -7,7 +7,7 @@
   "jsnext:main": "dist/public_api.js",
   "typings": "dist/public_api.d.ts",
   "scripts": {
-    "test:raw": "TS_NODE_CACHE=false mocha --require ts-node/register 'src/**.spec.ts'",
+    "test:raw": "TS_NODE_CACHE=false mocha --require ts-node/register 'src/*.spec.ts' 'src/**/*.spec.ts'",
     "test:watch": "npm run test:raw -- --watch --watch-extension ts",
     "test:coverage": "rimraf coverage && nyc -e '.ts' -r html -r text npm run test:raw",
     "test": "npm run test:coverage && nyc report -r text-lcov | coveralls",
@@ -52,6 +52,7 @@
   "nyc": {
     "exclude": [
       "**/*.spec.ts",
+      "**/*.fixture.ts",
       "dist",
       "bundle"
     ]
