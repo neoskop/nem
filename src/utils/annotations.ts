@@ -96,7 +96,7 @@ export class Annotator {
             
             function PropDecorator(cls : { constructor : Function }, name : string) {
                 const constructor = cls.constructor;
-                const instance = new (PropDecoratorFactory as any)(...args, cls, name);
+                const instance = new (PropDecoratorFactory as any)(...args);
                 
                 const meta = constructor.hasOwnProperty(PROPS) ?
                     (constructor as any)[ PROPS ] :
@@ -131,7 +131,7 @@ export class Annotator {
             }
             
             function ParamDecorator(cls : any, method : string | symbol, index : number) {
-                const instance = new (ParamDecoratorFactory as any)(...args, cls, method, index);
+                const instance = new (ParamDecoratorFactory as any)(...args);
                 if(method) {
                     const parameters = cls.constructor.hasOwnProperty(PARAMS) ?
                         (cls.constructor as any)[ PARAMS ] :

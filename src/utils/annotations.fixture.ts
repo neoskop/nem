@@ -22,8 +22,8 @@ export const WithParentAnnotation = Annotator.makeCtorDecorator('WithParentAnnot
 export class WithParentAnnotationTest {}
 
 
-export const SimplePropAnnotation = Annotator.makePropDecorator('SimplePropAnnotation', (...args) => {
-    return { type: Reflect.getMetadata('design:type', args[args.length - 2], args[args.length - 1]), ...args[0] };
+export const SimplePropAnnotation = Annotator.makePropDecorator('SimplePropAnnotation', (args : any) => {
+    return { ...args };
 });
 
 export class SimplePropAnnotationTest {

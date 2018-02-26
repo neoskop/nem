@@ -80,13 +80,6 @@ describe('utils/annotations', () => {
                 expect(annotations[ 0 ].name).to.be.equal('SimplePropAnnotation');
             });
         
-            it('should provide class and name to props function', () => {
-                const annotations = Annotator.getPropAnnotations(SimplePropAnnotationTest, 'property');
-            
-                expect(annotations).to.be.an('array').with.length(1);
-                expect(annotations[ 0 ].type).to.be.equal(String);
-            });
-        
             it('should create annotation with provided parent class', () => {
                 const annotations = Annotator.getPropAnnotations(PropWithParentAnnotationTest, 'property');
             
