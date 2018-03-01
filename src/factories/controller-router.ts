@@ -1,10 +1,13 @@
 import { Annotator, Type } from '../utils/annotations';
 import { NextFunction, Router, Request, Response } from 'express';
 import { AbstractController, AbstractMethod } from '../metadata/controller';
-import { Injector, InjectorFactory, Injectable } from '@neoskop/injector';
+import { Injector, InjectorFactory, Injectable, Provider } from '@neoskop/injector';
 import { AbstractParam } from '../metadata/params';
 import { ParamFactory } from './param';
 import { NemRootZone } from '../zone';
+import { copyMultiProvider } from '../utils/misc';
+import { MULTI_TOKENS_FROM_PARENT } from '../tokens';
+const debug = require('debug')('nem:factory:controller');
 
 @Injectable()
 export class ControllerRouterFactory {
@@ -14,13 +17,16 @@ export class ControllerRouterFactory {
                 protected paramFactory : ParamFactory) {
     }
     
-    createRouterFromController(cls : Type<any>) : Router {
+    createRouterFromController(cls : Type<any>, { providers = [] } : { providers?: Provider[] } = {}) : Router {
+        debug('create router from controller', cls.name);
         const router = Router();
     
         const controller = this.assertControllerAnnotation(cls);
         const injector = InjectorFactory.create({
             parent: this.injector,
             providers: [
+                ...copyMultiProvider(MULTI_TOKENS_FROM_PARENT, this.injector),
+                ...providers,
                 ...(controller.providers || []),
                 cls
             ]

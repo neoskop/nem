@@ -8,8 +8,7 @@ export interface NemModuleDecorator {
 }
 
 export interface NemModule {
-    basePath?: string;
-    imports?: Type<any>[];
+    modules?: ([ string|RegExp, Type<any> ]|Type<any>)[];
     providers?: Provider[];
     middlewares?: (any|any[])[];
     router?: [ string|RegExp, Router ][];

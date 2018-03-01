@@ -8,9 +8,9 @@
   dependencies:
     tslib "^1.7.1"
 
-"@neoskop/injector@1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@neoskop/injector/-/injector-1.1.0.tgz#2a3fc8d60c2517665406915329be64440d861d05"
+"@neoskop/injector@1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@neoskop/injector/-/injector-1.1.1.tgz#c88b7f7a9430c12c16bfa1fce33be706765f6120"
   dependencies:
     "@angular/core" "5.2.2"
     reflect-metadata "0.1.12"
@@ -25,6 +25,10 @@
 "@types/chai@4.0.4":
   version "4.0.4"
   resolved "https://registry.yarnpkg.com/@types/chai/-/chai-4.0.4.tgz#fe86315d9a66827feeb16f73bc954688ec950e18"
+
+"@types/debug@0.0.30":
+  version "0.0.30"
+  resolved "https://registry.yarnpkg.com/@types/debug/-/debug-0.0.30.tgz#dc1e40f7af3b9c815013a7860e6252f6352a84df"
 
 "@types/events@*":
   version "1.1.0"
