@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
 import { AbstractParam } from '../metadata/params';
 import { Request } from 'express';
+import { Injectable } from '@neoskop/injector';
 
 @Injectable()
 export class ParamFactory {

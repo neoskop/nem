@@ -1,8 +1,7 @@
 import { Annotator, Type } from '../utils/annotations';
 import { NextFunction, Router, Request, Response } from 'express';
 import { AbstractController, AbstractMethod } from '../metadata/controller';
-import { Injector, InjectorFactory } from '@neoskop/injector';
-import { Injectable } from '@angular/core';
+import { Injector, InjectorFactory, Injectable } from '@neoskop/injector';
 import { AbstractParam } from '../metadata/params';
 import { ParamFactory } from './param';
 import { NemRootZone } from '../zone';

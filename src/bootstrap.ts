@@ -1,4 +1,4 @@
-import { InjectorFactory, Provider } from '@neoskop/injector';
+import { InjectorFactory, Provider, Injector } from '@neoskop/injector';
 import { Type } from './utils/annotations';
 import * as express from 'express';
 import { ParamFactory } from './factories/param';
@@ -20,7 +20,7 @@ export const BOOTSTRAP_PROVIDER : Provider[] = [
 ];
 
 export class NemBootstrap {
-    protected injector = InjectorFactory.create({
+    protected injector : Injector = InjectorFactory.create({
         name: 'BootstrapInjector',
         providers: [
             ...BOOTSTRAP_PROVIDER,
@@ -32,7 +32,7 @@ export class NemBootstrap {
     
     }
     
-    bootstrap(module : Type<any>, app = express()) : express.Application {
+    bootstrap(module : Type<any>, app : express.Application = express()) : express.Application {
         const rootModuleRouter = this.injector.get(ModuleRouterFactory).createRouterFromModule(module);
         
         app.use(rootModuleRouter);

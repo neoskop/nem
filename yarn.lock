@@ -8,9 +8,9 @@
   dependencies:
     tslib "^1.7.1"
 
-"@neoskop/injector@1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@neoskop/injector/-/injector-1.0.0.tgz#a0a596ce70719fa3a9b6646190186721f84edda3"
+"@neoskop/injector@1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@neoskop/injector/-/injector-1.1.0.tgz#2a3fc8d60c2517665406915329be64440d861d05"
   dependencies:
     "@angular/core" "5.2.2"
     reflect-metadata "0.1.12"

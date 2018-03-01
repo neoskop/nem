@@ -1,8 +1,7 @@
-import { Injectable } from '@angular/core';
 import { Router } from 'express';
 import { Annotator, Type } from '../utils/annotations';
 import { NemModule } from '../metadata/module';
-import { Injector, InjectorFactory, Provider } from '@neoskop/injector';
+import { Injector, InjectorFactory, Provider, Injectable } from '@neoskop/injector';
 import { ControllerRouterFactory } from './controller-router';
 
 export const MODULE_FACTORY_PROVIDER : Provider[] = [
