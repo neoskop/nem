@@ -5,7 +5,7 @@ import * as express from 'express';
 import { ParamFactory } from './factories/param';
 import { ModuleRouterFactory } from './factories/module-router';
 import { NemRootZone } from './zone';
-import { ERROR_HANDLER } from './tokens';
+import { ERROR_HANDLER, VIEWS } from './tokens';
 import { defaultErrorHandler } from './errors/error-handler';
 
 export interface INemOptions {
@@ -38,6 +38,11 @@ export class NemBootstrap {
     
     bootstrap(module : Type<any>, app : express.Application = express()) : express.Application {
         const rootModuleRouter = this.injector.get(ModuleRouterFactory).createRouterFromModule(module);
+        
+        const views = this.injector.get(VIEWS, null);
+        if(views) {
+            app.set('views', views);
+        }
         
         app.use(rootModuleRouter);
         
