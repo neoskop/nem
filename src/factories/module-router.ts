@@ -11,6 +11,14 @@ export const MODULE_FACTORY_PROVIDER : Provider[] = [
     ControllerRouterFactory
 ];
 
+export interface IModuleContext {
+    cls : Type<any>;
+    metadata : NemModule;
+    injector : Injector;
+    factory: ControllerRouterFactory;
+    router : Router;
+}
+
 @Injectable()
 export class ModuleRouterFactory {
     
@@ -19,51 +27,57 @@ export class ModuleRouterFactory {
     
     createRouterFromModule(cls : Type<any>, { providers = [] } : { providers?: Provider[] } = {}) : Router {
         debug('create router from module', cls.name);
-        const router = Router();
+        
+        const ctx = this.initContext(cls, providers);
+        
+        if(ctx.metadata.modules) {
+            for(const mod of ctx.metadata.modules) {
+                this.handleImport(mod, ctx.router);
+            }
+        }
+        
+        if(ctx.metadata.middlewares) {
+            for(const middleware of ctx.metadata.middlewares) {
+                this.handleMiddleware(middleware, ctx.router);
+            }
+        }
+        
+        if(ctx.metadata.router) {
+            for(const [ path, subRouter ] of ctx.metadata.router) {
+                this.handleRouter(path, subRouter, ctx.router);
+            }
+        }
+        
+        if(ctx.metadata.controller) {
+            for(const [ path, controller ] of ctx.metadata.controller) {
+                this.handleRouter(path, ctx.factory.createRouterFromController(controller, {
+                    providers: [
+                        { provide: BASE_PATHS, useValue: path, multi: true }
+                    ]
+                }), ctx.router);
+            }
+        }
+        ctx.injector.get(cls);
     
-        const module = this.assertModuleAnnotation(cls);
-        const injector = InjectorFactory.create({
+        return ctx.router;
+    }
+    
+    protected initContext(cls : Type<any>, providers: Provider[]) : IModuleContext {
+        const ctx : Partial<IModuleContext> = { router: Router(), cls };
+        ctx.metadata = this.assertModuleAnnotation(cls);
+        ctx.injector = InjectorFactory.create({
             parent: this.injector,
             providers: [
                 ...copyMultiProvider(MULTI_TOKENS_FROM_PARENT, this.injector),
                 ...MODULE_FACTORY_PROVIDER,
                 ...providers,
-                ...(module.providers || []),
+                ...(ctx.metadata.providers || []),
                 cls
             ]
         });
-        const controllerFactory = injector.get(ControllerRouterFactory);
+        ctx.factory = ctx.injector.get(ControllerRouterFactory);
         
-        if(module.modules) {
-            for(const mod of module.modules) {
-                this.handleImport(mod, router);
-            }
-        }
-        
-        if(module.middlewares) {
-            for(const middleware of module.middlewares) {
-                this.handleMiddleware(middleware, router);
-            }
-        }
-        
-        if(module.router) {
-            for(const [ path, subRouter ] of module.router) {
-                this.handleRouter(path, subRouter, router);
-            }
-        }
-        
-        if(module.controller) {
-            for(const [ path, controller ] of module.controller) {
-                this.handleRouter(path, controllerFactory.createRouterFromController(controller, {
-                    providers: [
-                        { provide: BASE_PATHS, useValue: path, multi: true }
-                    ]
-                }), router);
-            }
-        }
-        injector.get(cls);
-    
-        return router;
+        return ctx as IModuleContext;
     }
     
     protected assertModuleAnnotation(cls : Type<any>) : NemModule {

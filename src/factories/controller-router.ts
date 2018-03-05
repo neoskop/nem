@@ -22,6 +22,7 @@ export interface IControllerContext {
     injector : Injector;
     instance : any;
     methods : Map<string, MethodAnnotationMap>;
+    router: Router;
 }
 
 @Injectable()
@@ -34,24 +35,22 @@ export class ControllerRouterFactory {
     
     createRouterFromController(cls : Type<any>, { providers = [] } : { providers? : Provider[] } = {}) : Router {
         debug('create router from controller', cls.name);
-        const router = Router();
-        
         const ctx = this.initContext(cls, providers);
         
         for(const [ method, annotations ] of ctx.methods) {
             const params = this.getParamsForMethod(cls, method);
             
             for(const annotation of annotations.get(AbstractMethod)) {
-                router[ annotation.method ](annotation.path, this.createHandler(ctx, method, params, annotations))
+                ctx.router[ annotation.method ](annotation.path, this.createHandler(ctx, method, params, annotations))
             }
         }
         
         
-        return router;
+        return ctx.router;
     }
     
     protected initContext(cls : Type<any>, providers : Provider[]) : IControllerContext {
-        const ctx : Partial<IControllerContext> = { cls };
+        const ctx : Partial<IControllerContext> = { router: Router(), cls };
         ctx.metadata = this.assertControllerAnnotation(cls);
         ctx.injector = InjectorFactory.create({
             parent   : this.injector,
