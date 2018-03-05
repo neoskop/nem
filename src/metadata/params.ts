@@ -148,23 +148,23 @@ export const Body : BodyDecorator = Annotator.makeParamDecorator(
 
 // Single Header Parameter
 
-export interface HeaderDecorator {
+export interface HeaderParamDecorator {
     (headerName: string, options?: ParamOptions): any;
-    new (headerName: string, options?: ParamOptions): Header;
+    new (headerName: string, options?: ParamOptions): HeaderParam;
 }
 
-export interface Header extends AbstractParam, ParamOptions, Resolver {
+export interface HeaderParam extends AbstractParam, ParamOptions, Resolver {
     headerName: string;
 }
 
-export const Header : HeaderDecorator = Annotator.makeParamDecorator(
-    'Header',
+export const HeaderParam : HeaderParamDecorator = Annotator.makeParamDecorator(
+    'HeaderParam',
     (headerName: string, options: ParamOptions = {}) => ({
         required: false,
         type: String,
         ...options,
         headerName,
-        resolve: (options : Header, req : Request) => req.headers[options.headerName.toLowerCase()]
+        resolve: (options : HeaderParam, req : Request) => req.headers[options.headerName.toLowerCase()]
     }),
     AbstractParam);
 

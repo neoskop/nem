@@ -4,7 +4,7 @@ import {
     AbstractParam,
     Body,
     BodyParam,
-    Header,
+    HeaderParam,
     Headers,
     Param,
     Params,
@@ -239,7 +239,7 @@ describe('metadata/params', () => {
             expect(annotations).to.be.an('array').with.length(1);
             expect(annotations[ 0 ]).to.be.an('array').with.length(1);
             
-            expect(annotations[ 0 ][ 0 ]).to.be.instanceOf(Header).and.instanceOf(AbstractParam);
+            expect(annotations[ 0 ][ 0 ]).to.be.instanceOf(HeaderParam).and.instanceOf(AbstractParam);
             
             expect(annotations[ 0 ][ 0 ]).to.have.keys('headerName', 'type', 'required', 'resolve');
             for(const [ key, value ] of Object.entries({
