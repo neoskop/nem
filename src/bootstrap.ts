@@ -5,7 +5,7 @@ import * as express from 'express';
 import { ParamFactory } from './factories/param';
 import { ModuleRouterFactory } from './factories/module-router';
 import { NemRootZone } from './zone';
-import { ERROR_HANDLER, VIEWS } from './tokens';
+import { ERROR_HANDLER, VIEW_ENGINE, VIEWS } from './tokens';
 import { defaultErrorHandler } from './errors/error-handler';
 
 export interface INemOptions {
@@ -20,7 +20,8 @@ export const BOOTSTRAP_PROVIDER : Provider[] = [
     ParamFactory,
     ModuleRouterFactory,
     { provide: NemRootZone, useValue: Zone.root },
-    { provide: ERROR_HANDLER, useValue: defaultErrorHandler }
+    { provide: ERROR_HANDLER, useValue: defaultErrorHandler },
+    { provide: VIEW_ENGINE, useValue: 'ejs' }
 ];
 
 export class NemBootstrap {
@@ -43,6 +44,7 @@ export class NemBootstrap {
         if(views) {
             app.set('views', views);
         }
+        app.set('view engine', this.injector.get(VIEW_ENGINE));
         
         app.use(rootModuleRouter);
         
