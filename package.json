@@ -45,6 +45,7 @@
     "@types/source-map-support": "0.4.0",
     "chai": "4.1.2",
     "coveralls": "3.0.0",
+    "ejs": "2.5.7",
     "mocha": "4.0.1",
     "nyc": "11.2.1",
     "rimraf": "2.6.2",
@@ -54,7 +55,7 @@
     "rollup-plugin-sourcemaps": "0.4.2",
     "sinon": "4.4.2",
     "sinon-chai": "2.14.0",
-    "ts-node": "3.3.0",
+    "ts-node": "5.0.1",
     "tslib": "1.9.0",
     "typescript": "^2.7.2"
   },

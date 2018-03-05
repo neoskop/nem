@@ -1,0 +1,16 @@
+{
+  "extends": "./tsconfig",
+  "compilerOptions": {
+    "rootDir": null,
+    "rootDirs": [
+      "src",
+      "examples"
+    ],
+    "paths": {
+      "@neoskop/nem": [ "src/public_api.ts" ]
+    }
+  },
+  "include": [
+    "examples/**/*.ts"
+  ]
+}
