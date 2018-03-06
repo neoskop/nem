@@ -1,13 +1,19 @@
 import { Annotator, Type } from '../utils/annotations';
-import { NextFunction, Router, Request, Response } from 'express';
+import { NextFunction, Request, Response, Router } from 'express';
 import { AbstractController, AbstractMethod, ApplicableAnnotation } from '../metadata/controller';
-import { Injector, InjectorFactory, Injectable, Provider } from '@neoskop/injector';
+import { Injectable, Injector, InjectorFactory, Provider } from '@neoskop/injector';
 import { AbstractParam } from '../metadata/params';
 import { ParamFactory } from './param';
 import { NemRootZone } from '../zone';
 import { copyMultiProvider } from '../utils/misc';
 import { DEFAULT_END_HANDLER, MULTI_TOKENS_FROM_PARENT } from '../tokens';
 import { Result } from '../metadata/result';
+
+declare module "express" {
+    interface Request {
+        injector?: Injector;
+    }
+}
 
 const debug = require('debug')('nem:factory:controller');
 
@@ -134,6 +140,8 @@ export class ControllerRouterFactory {
             
             zone.run(async () => {
                 try {
+                    request.injector = ctx.injector;
+                    
                     const appAnnotations = annotations.get(ApplicableAnnotation) || [];
                     
                     await applyApplicableAnnotations(appAnnotations, 'before', { request, response });

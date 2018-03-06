@@ -2,8 +2,9 @@ import { Provider } from '@neoskop/injector';
 import { Annotator } from '../utils/annotations';
 import { Request, Response } from 'express';
 import * as HttpStatus from 'http-status';
-import { DEFAULT_END_HANDLER } from '../tokens';
+import { DEFAULT_END_HANDLER, VIEW_PREFIX } from '../tokens';
 import { HttpError } from '../errors/http';
+import * as path from 'path';
 
 export abstract class AbstractController {
     providers?: Provider[]
@@ -159,8 +160,9 @@ export interface View extends ApplicableAnnotation {
 
 export const View : ViewDecorator = Annotator.makePropDecorator('View', (view : string) => ({
     view,
-    end({ view } : View, { response, result } : { request : Request, response : Response, result : any }) {
-        response.render(view, result);
+    end({ view } : View, { request, response, result } : { request : Request, response : Response, result : any }) {
+        const template = request.injector!.get(VIEW_PREFIX) ? path.join(request.injector!.get(VIEW_PREFIX)!, view) : view;
+        response.render(template, result);
     }
 }), ApplicableAnnotation);
 

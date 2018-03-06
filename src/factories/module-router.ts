@@ -3,11 +3,12 @@ import { Annotator, Type } from '../utils/annotations';
 import { NemModule } from '../metadata/module';
 import { Injector, InjectorFactory, Provider, Injectable } from '@neoskop/injector';
 import { ControllerRouterFactory } from './controller-router';
-import { BASE_PATHS, MULTI_TOKENS_FROM_PARENT } from '../tokens';
+import { BASE_PATHS, MULTI_TOKENS_FROM_PARENT, VIEW_PREFIX } from '../tokens';
 import { copyMultiProvider } from '../utils/misc';
 const debug = require('debug')('nem:factory:module');
 
 export const MODULE_FACTORY_PROVIDER : Provider[] = [
+    { provide: VIEW_PREFIX, useValue: undefined },
     ControllerRouterFactory
 ];
 
