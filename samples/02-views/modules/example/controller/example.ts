@@ -6,7 +6,7 @@ export class ExampleController {
     @View('index')
     index() {
         return {
-            title: '01-bootstrap',
+            title: '02-views',
             description: 'Simple example controller'
         }
     }
