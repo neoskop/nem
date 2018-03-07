@@ -8,7 +8,7 @@ export interface NemModuleDecorator {
 }
 
 export interface NemModule {
-    modules?: ([ string|RegExp, Type<any> ]|Type<any>)[];
+    modules?: ([ string|RegExp, Type<any> | NemModuleWithProviders ] | Type<any> | NemModuleWithProviders)[];
     providers?: Provider[];
     rootProviders?: Provider[];
     middlewares?: (any|any[])[];
@@ -17,3 +17,9 @@ export interface NemModule {
 }
 
 export const NemModule : NemModuleDecorator = Annotator.makeCtorDecorator('NemModule', (options : NemModule) => options);
+
+export interface NemModuleWithProviders {
+    nemModule: Type<any>;
+    providers?: Provider[];
+    rootProviders?: Provider[];
+}

@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { Annotator, Type } from '../utils/annotations';
-import { NemModule } from '../metadata/module';
+import { NemModule, NemModuleWithProviders } from '../metadata/module';
 import { Injector, InjectorFactory, Provider, Injectable } from '@neoskop/injector';
 import { ControllerRouterFactory } from './controller-router';
 import { BASE_PATHS, MULTI_TOKENS_FROM_PARENT, VIEW_PREFIX } from '../tokens';
@@ -32,11 +32,11 @@ export class ModuleRouterFactory {
         return [
             ...(metadata.rootProviders || []),
             ...(metadata.modules || []).map(declaration => {
-                if(Array.isArray(declaration)) {
-                    return this.getRootProvider(declaration[1]);
-                } else {
-                    return this.getRootProvider(declaration);
-                }
+                const nemModule = this.assertNemModuleWithProviders(Array.isArray(declaration) ? declaration[1] : declaration);
+                return [
+                    this.getRootProvider(nemModule.nemModule),
+                    ...(nemModule.rootProviders || [])
+                ]
             }).reduce((t, c) => t.concat(c), [])
         ]
     }
@@ -108,18 +108,31 @@ export class ModuleRouterFactory {
         throw new Error(`Class "${cls.name}" has no module annotation`);
     }
     
+    protected assertNemModuleWithProviders(arg : NemModuleWithProviders|Type<any>) : NemModuleWithProviders {
+        if(typeof arg === 'object' && arg.hasOwnProperty('nemModule')) {
+            return arg as NemModuleWithProviders;
+        }
+        
+        return {
+            nemModule: arg as Type<any>
+        }
+    }
+    
     protected handleImport(module : [ string|RegExp, Type<any> ]|Type<any>, router : Router) {
         if(Array.isArray(module)) {
             const [ path, mod ] = module;
-            debug('handle import', path, mod.name);
-            router.use(path, this.createRouterFromModule(mod, {
+            const nemModule = this.assertNemModuleWithProviders(mod);
+            debug('handle import', path, nemModule.nemModule.name);
+            router.use(path, this.createRouterFromModule(nemModule.nemModule, {
                 providers: [
+                    ...(nemModule.providers || []),
                     { provide: BASE_PATHS, useValue: path, multi: true }
                 ]
             }));
         } else {
-            debug('handle import', module.name);
-            router.use(this.createRouterFromModule(module));
+            const { nemModule, providers } = this.assertNemModuleWithProviders(module);
+            debug('handle import', nemModule.name);
+            router.use(this.createRouterFromModule(nemModule, { providers }));
         }
     }
     
