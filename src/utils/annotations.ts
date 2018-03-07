@@ -4,7 +4,6 @@
  *
  * @todo export into @neoskop/annotation-factory
  */
-import 'reflect-metadata';
 
 export const ANNOTATIONS = '__ANNOTATIONS__';
 export const PROPS = '__PROPS__';
