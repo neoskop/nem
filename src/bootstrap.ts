@@ -38,17 +38,23 @@ export class NemBootstrap {
     }
     
     bootstrap(module : Type<any>, app : express.Application = express()) : express.Application {
-        const rootModuleRouter = this.injector.get(ModuleRouterFactory).createRouterFromModule(module);
+        const factory = this.injector.get(ModuleRouterFactory);
+        const injector = InjectorFactory.create({
+            name: 'RootInjector',
+            providers: factory.getRootProvider(module),
+            parent: this.injector
+        });
+        const rootModuleRouter = factory.createRouterFromModule(module);
         
-        const views = this.injector.get(VIEWS, null);
+        const views = injector.get(VIEWS, null);
         if(views) {
             app.set('views', views);
         }
-        app.set('view engine', this.injector.get(VIEW_ENGINE));
+        app.set('view engine', injector.get(VIEW_ENGINE));
         
         app.use(rootModuleRouter);
         
-        const errorHandler = this.injector.get(ERROR_HANDLER);
+        const errorHandler = injector.get(ERROR_HANDLER);
         if(errorHandler) {
             app.use(errorHandler);
         }

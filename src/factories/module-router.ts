@@ -26,6 +26,21 @@ export class ModuleRouterFactory {
     constructor(protected injector : Injector) {
     }
     
+    getRootProvider(cls : Type<any>) : Provider[] {
+        const metadata = this.assertModuleAnnotation(cls);
+        
+        return [
+            ...(metadata.rootProviders || []),
+            ...(metadata.modules || []).map(declaration => {
+                if(Array.isArray(declaration)) {
+                    return this.getRootProvider(declaration[1]);
+                } else {
+                    return this.getRootProvider(declaration);
+                }
+            }).reduce((t, c) => t.concat(c), [])
+        ]
+    }
+    
     createRouterFromModule(cls : Type<any>, { providers = [] } : { providers?: Provider[] } = {}) : Router {
         debug('create router from module', cls.name);
         

@@ -10,6 +10,7 @@ export interface NemModuleDecorator {
 export interface NemModule {
     modules?: ([ string|RegExp, Type<any> ]|Type<any>)[];
     providers?: Provider[];
+    rootProviders?: Provider[];
     middlewares?: (any|any[])[];
     router?: [ string|RegExp, Router ][];
     controller?: [ string|RegExp, Type<any>][];
