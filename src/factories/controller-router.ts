@@ -205,8 +205,10 @@ export class ControllerRouterFactory {
         const globalBeforeHandler = ctx.injector.get(MIDDLEWARE_BEFORE, []).map(toHandler);
         const globalAfterHandler = ctx.injector.get(MIDDLEWARE_AFTER, []).map(toHandler);
         
-        const beforeHandler = ctx.methods.get(method)!.get(Use).filter(a => a.use === 'before').map(toHandler2);
-        const afterHandler = ctx.methods.get(method)!.get(Use).filter(a => a.use === 'after').map(toHandler2);
+        const useAnnotations = ctx.methods.get(method)!.get(Use) || [];
+        
+        const beforeHandler = useAnnotations.filter(a => a.use === 'before').map(toHandler2);
+        const afterHandler = useAnnotations.filter(a => a.use === 'after').map(toHandler2);
         
         return [ ...globalBeforeHandler, ...beforeHandler, handler, ...afterHandler, ...globalAfterHandler ];
     }
