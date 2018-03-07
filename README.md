@@ -1,4 +1,4 @@
-# @neoskop/express-modules
+# @neoskop/nem
 
 > Strucktured modules to build express apps
 
@@ -15,7 +15,7 @@ Develop
 ## Installation
 
 ```sh
-yarn add @neoskop/express-modules
+yarn add @neoskop/nem
 ```
 
 ## Usage
