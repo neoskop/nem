@@ -1,13 +1,15 @@
 import { Annotator, Type } from '../utils/annotations';
-import { NextFunction, Request, Response, Router } from 'express';
+import { NextFunction, Request, RequestHandler, Response, Router } from 'express';
 import { AbstractController, AbstractMethod, ApplicableAnnotation } from '../metadata/controller';
 import { Injectable, Injector, InjectorFactory, Provider } from '@neoskop/injector';
 import { AbstractParam } from '../metadata/params';
 import { ParamFactory } from './param';
 import { NemRootZone } from '../zone';
 import { copyMultiProvider } from '../utils/misc';
-import { DEFAULT_END_HANDLER, MULTI_TOKENS_FROM_PARENT } from '../tokens';
+import { DEFAULT_END_HANDLER, MIDDLEWARE_BEFORE, MULTI_TOKENS_FROM_PARENT, MIDDLEWARE_AFTER } from '../tokens';
 import { Result } from '../metadata/result';
+import { Middleware, Use } from '../metadata/middleware';
+import { IMiddleware } from '../interfaces/middleware';
 
 declare module "express" {
     interface Request {
@@ -20,6 +22,7 @@ const debug = require('debug')('nem:factory:controller');
 export interface MethodAnnotationMap extends Map<Type<any>, any> {
     get(key : typeof AbstractMethod) : AbstractMethod[];
     get(key : typeof ApplicableAnnotation) : ApplicableAnnotation[];
+    get(key : typeof Use) : Use[];
 }
 
 export interface IControllerContext {
@@ -89,7 +92,7 @@ export class ControllerRouterFactory {
         const annotations = Annotator.getPropAnnotations(cls);
         const methods = new Map<string, MethodAnnotationMap>();
         
-        const types : Type<any>[] = [ AbstractMethod, ApplicableAnnotation ] as any[];
+        const types : Type<any>[] = [ AbstractMethod, ApplicableAnnotation, Use ] as any[];
         
         for(const prop in annotations) {
             methods.set(prop, new Map());
@@ -128,8 +131,8 @@ export class ControllerRouterFactory {
         return result;
     }
     
-    protected createHandler(ctx : IControllerContext, method : string, params : AbstractParam[], annotations : MethodAnnotationMap) {
-        return async (request : Request, response : Response, next : NextFunction) => {
+    protected createHandler(ctx : IControllerContext, method : string, params : AbstractParam[], annotations : MethodAnnotationMap) : RequestHandler[] {
+        const handler = async (request : Request, response : Response, next : NextFunction) => {
             const zone = this.zone.fork({
                 name      : '',
                 properties: {
@@ -168,13 +171,44 @@ export class ControllerRouterFactory {
                         })
                     ], 'end', { request, response, result: result.result }, { stopAfterFirst: true });
                     
+                    next();
                 } catch(e) {
                     console.log('catch', e);
                     next(e);
                 }
             });
             
+        };
+        
+        function toHandler(middleware : RequestHandler|IMiddleware) {
+            if(typeof middleware === 'function') {
+                return middleware;
+            }
+    
+            return (request : Request, response : Response, next : NextFunction) => {
+                (middleware as IMiddleware).use(request, response, next);
+            }
         }
+        
+        function toHandler2(use : Use) {
+            if(!Annotator.getCtorAnnotations(use.middleware as any).some(a => a instanceof Middleware)) {
+                return use.middleware as RequestHandler;
+            }
+    
+            return (request : Request, response : Response, next : NextFunction) => {
+                ctx.injector.get<IMiddleware>(use.middleware as any).use(request, response, next);
+            }
+        }
+        
+        
+        
+        const globalBeforeHandler = ctx.injector.get(MIDDLEWARE_BEFORE, []).map(toHandler);
+        const globalAfterHandler = ctx.injector.get(MIDDLEWARE_AFTER, []).map(toHandler);
+        
+        const beforeHandler = ctx.methods.get(method)!.get(Use).filter(a => a.use === 'before').map(toHandler2);
+        const afterHandler = ctx.methods.get(method)!.get(Use).filter(a => a.use === 'after').map(toHandler2);
+        
+        return [ ...globalBeforeHandler, ...beforeHandler, handler, ...afterHandler, ...globalAfterHandler ];
     }
 }
 
