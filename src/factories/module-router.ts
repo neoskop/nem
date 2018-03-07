@@ -118,7 +118,7 @@ export class ModuleRouterFactory {
         }
     }
     
-    protected handleImport(module : [ string|RegExp, Type<any> ]|Type<any>, router : Router) {
+    protected handleImport(module : [ string|RegExp, Type<any> | NemModuleWithProviders ] |Type<any> | NemModuleWithProviders, router : Router) {
         if(Array.isArray(module)) {
             const [ path, mod ] = module;
             const nemModule = this.assertNemModuleWithProviders(mod);
