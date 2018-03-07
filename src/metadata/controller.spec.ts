@@ -275,11 +275,12 @@ describe('metadata/controller', () => {
         it('should render response', () => {
             const spy = sinon.spy();
             const response = { render: spy };
+            const request = { injector: { get() { return undefined }} };
             
             const [ renderAnnotation ] = Annotator.getPropAnnotations(TestClass, 'view');
             const result = {};
             
-            renderAnnotation.end(renderAnnotation, { response, result });
+            renderAnnotation.end(renderAnnotation, { request, response, result });
             
             expect(spy).to.have.been.calledOnce;
             expect(spy).to.have.been.calledWith('foobar.html', result);

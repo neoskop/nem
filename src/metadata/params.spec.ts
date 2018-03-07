@@ -38,7 +38,7 @@ class TestClass {
     body(@Body() _a : any) {
     }
     
-    header(@Header('Accepts') _a : any) {
+    header(@HeaderParam('Accepts') _a : any) {
     }
     
     headers(@Headers() _a : any) {
