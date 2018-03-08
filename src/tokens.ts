@@ -12,7 +12,11 @@ export const VIEW_PREFIX = new InjectionToken<string|undefined>('View Prefix');
 export const MIDDLEWARE_BEFORE = new InjectionToken<(IMiddleware|RequestHandler)[]>('Middleware Before');
 export const MIDDLEWARE_AFTER = new InjectionToken<(IMiddleware|RequestHandler)[]>('Middleware After');
 export const APP = new InjectionToken<Application>('Express Application');
+export const BOOTSTRAP_LISTENER_BEFORE = new InjectionToken<Function[]>('Bootstrap Listener Before');
+export const BOOTSTRAP_LISTENER_AFTER = new InjectionToken<Function[]>('Bootstrap Listener After');
 
 export const MULTI_TOKENS_FROM_PARENT = [
-    BASE_PATHS
+    BASE_PATHS,
+    BOOTSTRAP_LISTENER_BEFORE,
+    BOOTSTRAP_LISTENER_AFTER
 ];

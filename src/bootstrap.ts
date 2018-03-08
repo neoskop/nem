@@ -1,15 +1,21 @@
 import 'source-map-support/register';
-import { InjectorFactory, Provider, Injector } from '@neoskop/injector';
+import { InjectorFactory, Provider, Injector, Optional } from '@neoskop/injector';
 import { Type } from './utils/annotations';
 import * as express from 'express';
 import { ParamFactory } from './factories/param';
 import { ModuleRouterFactory } from './factories/module-router';
 import { NemRootZone } from './zone';
-import { APP, ERROR_HANDLER, VIEW_ENGINE, VIEWS } from './tokens';
+import {
+    APP, BOOTSTRAP_LISTENER_AFTER, BOOTSTRAP_LISTENER_BEFORE, ERROR_HANDLER, MULTI_TOKENS_FROM_PARENT, VIEW_ENGINE,
+    VIEWS
+} from './tokens';
 import { defaultErrorHandler } from './errors/error-handler';
+import { copyMultiProvider } from './utils/misc';
+import { Application, ErrorRequestHandler } from 'express';
 
 export interface INemOptions {
-    providers?: Provider[]
+    providers?: Provider[];
+    injector?: Injector;
 }
 
 export function nem(options : INemOptions = {}) {
@@ -24,13 +30,40 @@ export const BOOTSTRAP_PROVIDER : Provider[] = [
     { provide: VIEW_ENGINE, useValue: 'ejs' }
 ];
 
+export const ROOT_PROVIDER : Provider[] = [
+    {
+        provide: BOOTSTRAP_LISTENER_BEFORE,
+        useFactory(app : Application, views : string[], engine : string) {
+            return () => {
+                if(views) {
+                    app.set('views', views);
+                }
+                app.set('view engine', engine);
+            }
+        },
+        deps: [ APP, [ new Optional(), VIEWS ], VIEW_ENGINE ],
+        multi: true
+    },
+    {
+        provide: BOOTSTRAP_LISTENER_AFTER,
+        useFactory(app : Application, errorHandler : ErrorRequestHandler) {
+            return () => {
+                app.use(errorHandler);
+            }
+        },
+        deps: [ APP, ERROR_HANDLER ],
+        multi: true
+    }
+]
+
 export class NemBootstrap {
     protected injector : Injector = InjectorFactory.create({
         name: 'BootstrapInjector',
         providers: [
             ...BOOTSTRAP_PROVIDER,
             ...(this.options.providers || [])
-        ]
+        ],
+        parent: this.options.injector
     });
     
     constructor(protected options : INemOptions) {
@@ -42,24 +75,25 @@ export class NemBootstrap {
         const injector = InjectorFactory.create({
             name: 'RootInjector',
             providers: [
+                ...ROOT_PROVIDER,
+                copyMultiProvider(MULTI_TOKENS_FROM_PARENT, this.injector),
                 { provide: APP, useValue: app },
                 ...factory.getRootProvider(module)
             ],
             parent: this.injector
         });
         const rootModuleRouter = factory.createRouterFromModule(module);
-        
-        const views = injector.get(VIEWS, null);
-        if(views) {
-            app.set('views', views);
+    
+        const bootstrapListenerBefore = injector.get(BOOTSTRAP_LISTENER_BEFORE, []);
+        for(const listener of bootstrapListenerBefore) {
+            listener();
         }
-        app.set('view engine', injector.get(VIEW_ENGINE));
         
         app.use(rootModuleRouter);
         
-        const errorHandler = injector.get(ERROR_HANDLER);
-        if(errorHandler) {
-            app.use(errorHandler);
+        const bootstrapListenerAfter = injector.get(BOOTSTRAP_LISTENER_AFTER, []);
+        for(const listener of bootstrapListenerAfter) {
+            listener();
         }
         
         return app;
