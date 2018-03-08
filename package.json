@@ -1,25 +1,21 @@
 {
-  "name": "@neoskop/express-modules",
+  "name": "@neoskop/nem",
   "version": "0.0.0",
   "description": "Strucktured modules to build express apps",
-  "main": "bundle/express-modules.bundle.js",
-  "module": "dist/public_api.js",
-  "jsnext:main": "dist/public_api.js",
-  "typings": "dist/public_api.d.ts",
+  "main": "lib/public_api.js",
+  "typings": "lib/public_api.d.ts",
   "scripts": {
     "test:raw": "TS_NODE_CACHE=false mocha --opts mocha.opts",
     "test:watch": "npm run test:raw -- --watch",
     "test:coverage": "rimraf coverage && nyc -e '.ts' -r html -r text npm run test:raw",
     "test": "npm run test:coverage && nyc report -r text-lcov | coveralls",
-    "clean": "rimraf lib dist index.d.ts index.js index.js.map",
+    "clean": "rimraf lib",
     "prebuild": "npm run test:coverage",
-    "build": "npm run clean && npm run build:tsc && npm run build:rollup",
-    "build:tsc": "tsc -p tsconfig.esm.json",
-    "build:rollup": "rollup -c rollup.js"
+    "build": "npm run clean && tsc"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/neoskop/express-modules.git"
+    "url": "git+https://github.com/neoskop/nem.git"
   },
   "keywords": [
     "express",
@@ -29,9 +25,9 @@
   "author": "Mark Wecke <mark.wecke@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/neoskop/express-modules/issues"
+    "url": "https://github.com/neoskop/nem/issues"
   },
-  "homepage": "https://github.com/neoskop/express-modules#readme",
+  "homepage": "https://github.com/neoskop/nem#readme",
   "devDependencies": {
     "@angular/core": "5.2.7",
     "@neoskop/injector": "1.2.1",
