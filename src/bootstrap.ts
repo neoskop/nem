@@ -82,14 +82,13 @@ export class NemBootstrap {
             ],
             parent: this.injector
         });
-        const rootModuleRouter = factory.createRouterFromModule(module);
     
         const bootstrapListenerBefore = injector.get(BOOTSTRAP_LISTENER_BEFORE, []);
         for(const listener of bootstrapListenerBefore) {
             listener();
         }
-        
-        app.use(rootModuleRouter);
+    
+        factory.createRouterFromModule(module, { router: app });
         
         const bootstrapListenerAfter = injector.get(BOOTSTRAP_LISTENER_AFTER, []);
         for(const listener of bootstrapListenerAfter) {

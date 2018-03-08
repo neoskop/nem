@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { IRouter, Router } from 'express';
 import { Annotator, Type } from '../utils/annotations';
 import { NemModule, NemModuleWithProviders } from '../metadata/module';
 import { Injector, InjectorFactory, Provider, Injectable } from '@neoskop/injector';
@@ -41,10 +41,10 @@ export class ModuleRouterFactory {
         ]
     }
     
-    createRouterFromModule(cls : Type<any>, { providers = [] } : { providers?: Provider[] } = {}) : Router {
+    createRouterFromModule(cls : Type<any>, options : { providers?: Provider[], router?: IRouter<any> } = {}) : IRouter<any> {
         debug('create router from module', cls.name);
         
-        const ctx = this.initContext(cls, providers);
+        const ctx = this.initContext(cls, options);
         
         if(ctx.metadata.modules) {
             for(const mod of ctx.metadata.modules) {
@@ -78,8 +78,8 @@ export class ModuleRouterFactory {
         return ctx.router;
     }
     
-    protected initContext(cls : Type<any>, providers: Provider[]) : IModuleContext {
-        const ctx : Partial<IModuleContext> = { router: Router(), cls };
+    protected initContext(cls : Type<any>, { providers = [], router = Router() } : { providers?: Provider[], router?: IRouter<any> }) : IModuleContext {
+        const ctx : Partial<IModuleContext> = { router, cls };
         ctx.metadata = this.assertModuleAnnotation(cls);
         ctx.injector = InjectorFactory.create({
             parent: this.injector,
@@ -118,7 +118,7 @@ export class ModuleRouterFactory {
         }
     }
     
-    protected handleImport(module : [ string|RegExp, Type<any> | NemModuleWithProviders ] |Type<any> | NemModuleWithProviders, router : Router) {
+    protected handleImport(module : [ string|RegExp, Type<any> | NemModuleWithProviders ] |Type<any> | NemModuleWithProviders, router : IRouter<any>) {
         if(Array.isArray(module)) {
             const [ path, mod ] = module;
             const nemModule = this.assertNemModuleWithProviders(mod);
@@ -132,11 +132,11 @@ export class ModuleRouterFactory {
         } else {
             const { nemModule, providers } = this.assertNemModuleWithProviders(module);
             debug('handle import', nemModule.name);
-            router.use(this.createRouterFromModule(nemModule, { providers }));
+            this.createRouterFromModule(nemModule, { providers, router });
         }
     }
     
-    protected handleMiddleware(middleware : any|any[], router : Router) {
+    protected handleMiddleware(middleware : any|any[], router : IRouter<any>) {
         if(Array.isArray(middleware)) {
             router.use(...middleware);
         } else {
@@ -144,7 +144,7 @@ export class ModuleRouterFactory {
         }
     }
     
-    protected handleRouter(route : string|RegExp, subRouter : Router, router : Router) {
+    protected handleRouter(route : string|RegExp, subRouter : Router, router : IRouter<any>) {
         router.use(route, subRouter);
     }
 }
