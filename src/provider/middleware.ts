@@ -8,7 +8,7 @@ export function middleware(middleware : Type<any>|RequestHandler, placement : 'b
     const provide = placement === 'before' ? MIDDLEWARE_BEFORE : MIDDLEWARE_AFTER;
     
     if(Annotator.getCtorAnnotations(middleware as any).some(a => a instanceof Middleware)) {
-        return { provide, useClass: middleware, multi : true }
+        return { provide, useClass: middleware as Type<any>, multi : true }
     }
     return { provide, useValue: middleware, multi : true }
 }
