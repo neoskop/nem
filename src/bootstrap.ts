@@ -3,15 +3,17 @@ import { InjectorFactory, Provider, Injector, Optional } from '@neoskop/injector
 import { Type } from './utils/annotations';
 import * as express from 'express';
 import { ParamFactory } from './factories/param';
-import { ModuleRouterFactory } from './factories/module-router';
+import { IModuleContext, ModuleRouterFactory } from './factories/module-router';
 import { NemRootZone } from './zone';
 import {
-    APP, BOOTSTRAP_LISTENER_AFTER, BOOTSTRAP_LISTENER_BEFORE, ERROR_HANDLER, MULTI_TOKENS_FROM_PARENT, VIEW_ENGINE,
+    APP, BOOTSTRAP_LISTENER_AFTER, BOOTSTRAP_LISTENER_BEFORE, ERROR_HANDLER, MULTI_TOKENS_FROM_PARENT, SERVER,
+    VIEW_ENGINE,
     VIEWS
 } from './tokens';
 import { defaultErrorHandler } from './errors/error-handler';
 import { copyMultiProvider } from './utils/misc';
 import { Application, ErrorRequestHandler } from 'express';
+import { Server, createServer } from 'http';
 
 export interface INemOptions {
     providers?: Provider[];
@@ -70,7 +72,7 @@ export class NemBootstrap {
     
     }
     
-    bootstrap(module : Type<any>, app : express.Application = express()) : express.Application {
+    bootstrap(module : Type<any>, { app = express(), server = createServer(app) } : { app?: express.Application, server?: Server } = {}) : NemBootstrappedModule {
         const factory = this.injector.get(ModuleRouterFactory);
         const injector = InjectorFactory.create({
             name: 'RootInjector',
@@ -78,23 +80,42 @@ export class NemBootstrap {
                 ...ROOT_PROVIDER,
                 copyMultiProvider(MULTI_TOKENS_FROM_PARENT, this.injector),
                 { provide: APP, useValue: app },
+                { provide: SERVER, useValue: server },
                 ...factory.getRootProvider(module)
             ],
             parent: this.injector
         });
-    
+        
         const bootstrapListenerBefore = injector.get(BOOTSTRAP_LISTENER_BEFORE, []);
         for(const listener of bootstrapListenerBefore) {
             listener();
         }
     
-        factory.createRouterFromModule(module, { router: app });
+        const context = factory.createRouterFromModule(module, { router: app });
         
         const bootstrapListenerAfter = injector.get(BOOTSTRAP_LISTENER_AFTER, []);
         for(const listener of bootstrapListenerAfter) {
             listener();
         }
         
-        return app;
+        return new NemBootstrappedModule(injector, context);
+    }
+}
+
+export class NemBootstrappedModule {
+    
+    constructor(public readonly injector : Injector, public readonly context : Readonly<IModuleContext>) {
+    
+    }
+    
+    listen(port : number, host?: string) : Promise<void> {
+        return new Promise((resolve, reject) => {
+            this.injector.get(SERVER).listen(port, host, (err : any) => {
+                if(err) {
+                    return reject(err);
+                }
+                resolve();
+            })
+        })
     }
 }
