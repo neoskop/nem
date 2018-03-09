@@ -64,5 +64,9 @@
   ],
   "exclude": [
     "node_modules"
-  ]
+  ],
+  "typedocOptions": {
+    "out": "docs",
+    "mode": "file"
+  }
 }
