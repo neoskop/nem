@@ -1,11 +1,46 @@
 import { ApplicableAnnotation } from './controller';
 
+/**
+ * @see {@link Result}
+ */
 export interface ResultCtor<T> {
     ensure<T>(arg : Result<T>|T) : Result<T>;
     
     new (argsOrResult : ApplicableAnnotation[]|any, result? : T): Result<T>;
     (argsOrResult : ApplicableAnnotation[]|any, result? : T): Result<T>;
 }
+
+/**
+ * To return metadata and a result from a controller
+ * @example
+ * ```
+ *
+ * @Controller()
+ * export class ExampleController {
+ *
+ *   @Get('/')
+ *   index() {
+ *     return Result([
+ *       new Header('ETag', '"foobar"'),
+ *       new Json()
+ *     ], { foo: 'bar' });
+ *   }
+ * }
+ *
+ * // equivalent to
+ *
+ * @Controller()
+ * export class ExampleController {
+ *
+ *   @Get('/')
+ *   @Header('ETag', '"foobar"')
+ *   @Json()
+ *   index() {
+ *     return { foo: 'bar' };
+ *   }
+ * }
+ * ```
+ */
 export interface Result<T> {
     readonly args : ApplicableAnnotation[];
     readonly result : T;

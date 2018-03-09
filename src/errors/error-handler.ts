@@ -1,7 +1,15 @@
-import { ErrorRequestHandler, NextFunction, Request, Response } from 'express';
+/** @internal */
+
+import { NextFunction, Request, Response } from 'express';
 import { HttpError, InternalServerError } from './http';
 
-export const defaultErrorHandler : ErrorRequestHandler = async function defaultErrorHandler(error : any, _request : Request, response : Response, _next : NextFunction) {
+/**
+ * Default error middleware to handle express errors
+ *
+ * @internal
+ * @hidden
+ */
+export async function defaultErrorHandler(error : any, _request : Request, response : Response, _next : NextFunction) : Promise<void> {
     if(!(error instanceof HttpError)) {
         error = new InternalServerError(undefined, error);
     }

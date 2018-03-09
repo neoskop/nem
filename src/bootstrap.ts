@@ -15,16 +15,35 @@ import { copyMultiProvider } from './utils/misc';
 import { Application, ErrorRequestHandler } from 'express';
 import { Server, createServer } from 'http';
 
+/**
+ * Bootstraping options
+ */
 export interface INemOptions {
+    /**
+     * Providers for bootstrapping
+     */
     providers?: Provider[];
+    
+    /**
+     * Injector to create the bootstrap injector from
+     */
     injector?: Injector;
 }
 
-export function nem(options : INemOptions = {}) {
+/**
+ * Bootstrap factory
+ */
+export function nem(options : INemOptions = {}) : NemBootstrap {
     return new NemBootstrap(options);
 }
 
-export const BOOTSTRAP_PROVIDER : Provider[] = [
+/**
+ * Required providers for bootstrapping
+ *
+ * @internal
+ * @hidden
+ */
+const BOOTSTRAP_PROVIDER : Provider[] = [
     ParamFactory,
     ModuleRouterFactory,
     { provide: NemRootZone, useValue: Zone.root },
@@ -32,6 +51,12 @@ export const BOOTSTRAP_PROVIDER : Provider[] = [
     { provide: VIEW_ENGINE, useValue: 'ejs' }
 ];
 
+/**
+ * Required providers for root injector
+ *
+ * @internal
+ * @hidden
+ */
 export const ROOT_PROVIDER : Provider[] = [
     {
         provide: BOOTSTRAP_LISTENER_BEFORE,
@@ -56,8 +81,11 @@ export const ROOT_PROVIDER : Provider[] = [
         deps: [ APP, ERROR_HANDLER ],
         multi: true
     }
-]
+];
 
+/**
+ * @internal
+ */
 export class NemBootstrap {
     protected injector : Injector = InjectorFactory.create({
         name: 'BootstrapInjector',
@@ -102,10 +130,23 @@ export class NemBootstrap {
     }
 }
 
+/**
+ * The public api for the bootstrapped root module
+ */
 export class NemBootstrappedModule {
+    /**
+     * The root injector
+     */
+    readonly injector : Injector;
     
-    constructor(public readonly injector : Injector, public readonly context : Readonly<IModuleContext>) {
+    /**
+     * The root module context
+     */
+    readonly context : Readonly<IModuleContext>;
     
+    constructor(injector : Injector, context : Readonly<IModuleContext>) {
+        this.injector = injector;
+        this.context = context;
     }
     
     listen(port : number, host?: string) : Promise<void> {

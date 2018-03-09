@@ -1,23 +1,46 @@
-/*
+/**
  * Inspired and copied from @angular/core
  * @see https://github.com/angular/angular/blob/master/packages/core/src/util/decorators.ts
  *
  * @todo export into @neoskop/annotation-factory
  */
 
-export const ANNOTATIONS = '__ANNOTATIONS__';
-export const PROPS = '__PROPS__';
-export const CTOR_PARAMS = '__CTOR_PARAMS__';
-export const PARAMS = '__PARAMS__';
+/**
+ * @internal
+ * @hidden
+ */
+const ANNOTATIONS = '__ANNOTATIONS__';
+
+/**
+ * @internal
+ * @hidden
+ */
+const PROPS = '__PROPS__';
+
+/**
+ * @internal
+ * @hidden
+ */
+const CTOR_PARAMS = '__CTOR_PARAMS__';
+
+/**
+ * @internal
+ * @hidden
+ */
+const PARAMS = '__PARAMS__';
 
 export interface Type<T> extends Function {
     new (...args : any[]) : T;
 }
 
 export interface AnnotatedType<T> extends Type<T> {
+    /** @hidden */
     [ANNOTATIONS]?: any[];
+    /** @hidden */
     [PROPS]?: { [P in keyof T]?: any[] };
+    /** @hidden */
     [CTOR_PARAMS]?: any[][];
+    /** @hidden */
     [PARAMS]?: { [P in keyof T]?: any[][] };
 }
 
@@ -173,6 +196,10 @@ export class Annotator {
     }
 }
 
+/**
+ * @internal
+ * @hidden
+ */
 function makeMetadataCtor(props? : (...args : any[]) => any) : Function {
     return function ctor(this : any, ...args : any[]) {
         if(props) {

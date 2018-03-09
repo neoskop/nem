@@ -5,20 +5,49 @@ import { Injector, InjectorFactory, Provider, Injectable } from '@neoskop/inject
 import { ControllerRouterFactory } from './controller-router';
 import { BASE_PATHS, MULTI_TOKENS_FROM_PARENT, VIEW_PREFIX } from '../tokens';
 import { copyMultiProvider } from '../utils/misc';
+
+/** @hidden */
 const debug = require('debug')('nem:factory:module');
 
+/**
+ * @internal
+ * @hidden
+ */
 export const MODULE_FACTORY_PROVIDER : Provider[] = [
     { provide: VIEW_PREFIX, useValue: undefined },
     ControllerRouterFactory
 ];
 
-export interface IModuleContext {
-    moduleType : Type<any>;
+export interface IModuleContext<T = any> {
+    /**
+     * The module type class
+     */
+    moduleType : Type<T>;
+    
+    /**
+     * The module metadata
+     */
     metadata : NemModule;
+    
+    /**
+     * The module injector
+     */
     injector : Injector;
+    
+    /**
+     * The controller factory
+     */
     factory: ControllerRouterFactory;
+    
+    /**
+     * The use router
+     */
     router : IRouter<any>;
-    module? : any;
+    
+    /**
+     * The module instance
+     */
+    module? : T;
 }
 
 @Injectable()

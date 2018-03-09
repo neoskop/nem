@@ -17,6 +17,7 @@ declare module "express" {
     }
 }
 
+/** @hidden */
 const debug = require('debug')('nem:factory:controller');
 
 export interface MethodAnnotationMap extends Map<Type<any>, any> {
@@ -25,12 +26,35 @@ export interface MethodAnnotationMap extends Map<Type<any>, any> {
     get(key : typeof Use) : Use[];
 }
 
-export interface IControllerContext {
-    cls : Type<any>;
+export interface IControllerContext<T = any> {
+    /**
+     * The controller type class
+     */
+    controllerType : Type<T>;
+    
+    /**
+     * The controller metadata
+     */
     metadata : AbstractController;
+    
+    /**
+     * The controller injector
+     */
     injector : Injector;
-    instance : any;
+    
+    /**
+     * The controller instance
+     */
+    instance : T;
+    
+    /**
+     * The controller methods and annotations
+     */
     methods : Map<string, MethodAnnotationMap>;
+    
+    /**
+     * The express router instance
+     */
     router: Router;
 }
 
@@ -42,12 +66,12 @@ export class ControllerRouterFactory {
                 protected paramFactory : ParamFactory) {
     }
     
-    createRouterFromController(cls : Type<any>, { providers = [] } : { providers? : Provider[] } = {}) : Router {
-        debug('create router from controller', cls.name);
-        const ctx = this.initContext(cls, providers);
+    createRouterFromController(controllerType : Type<any>, { providers = [] } : { providers? : Provider[] } = {}) : Router {
+        debug('create router from controller', controllerType.name);
+        const ctx = this.initContext(controllerType, providers);
         
         for(const [ method, annotations ] of ctx.methods) {
-            const params = this.getParamsForMethod(cls, method);
+            const params = this.getParamsForMethod(controllerType, method);
             
             for(const annotation of annotations.get(AbstractMethod)) {
                 ctx.router[ annotation.method ](annotation.path, this.createHandler(ctx, method, params, annotations))
@@ -58,26 +82,26 @@ export class ControllerRouterFactory {
         return ctx.router;
     }
     
-    protected initContext(cls : Type<any>, providers : Provider[]) : IControllerContext {
-        const ctx : Partial<IControllerContext> = { router: Router(), cls };
-        ctx.metadata = this.assertControllerAnnotation(cls);
+    protected initContext(controllerType : Type<any>, providers : Provider[]) : IControllerContext {
+        const ctx : Partial<IControllerContext> = { router: Router(), controllerType };
+        ctx.metadata = this.assertControllerAnnotation(controllerType);
         ctx.injector = InjectorFactory.create({
             parent   : this.injector,
             providers: [
                 ...copyMultiProvider(MULTI_TOKENS_FROM_PARENT, this.injector),
                 ...providers,
                 ...(ctx.metadata.providers || []),
-                cls
+                controllerType
             ]
         });
-        ctx.instance = ctx.injector.get(cls);
-        ctx.methods = this.createMethodAnnotationMap(cls);
+        ctx.instance = ctx.injector.get(controllerType);
+        ctx.methods = this.createMethodAnnotationMap(controllerType);
         
         return ctx as IControllerContext;
     }
     
-    protected assertControllerAnnotation(cls : Type<any>) : AbstractController {
-        const annotations = Annotator.getCtorAnnotations(cls);
+    protected assertControllerAnnotation(controllerType : Type<any>) : AbstractController {
+        const annotations = Annotator.getCtorAnnotations(controllerType);
         
         for(const annotation of annotations) {
             if(annotation instanceof AbstractController) {
@@ -85,11 +109,11 @@ export class ControllerRouterFactory {
             }
         }
         
-        throw new Error(`Class "${cls.name}" has no controller annotation`);
+        throw new Error(`Class "${controllerType.name}" has no controller annotation`);
     }
     
-    protected createMethodAnnotationMap(cls : Type<any>) : Map<string, MethodAnnotationMap> {
-        const annotations = Annotator.getPropAnnotations(cls);
+    protected createMethodAnnotationMap(controllerType : Type<any>) : Map<string, MethodAnnotationMap> {
+        const annotations = Annotator.getPropAnnotations(controllerType);
         const methods = new Map<string, MethodAnnotationMap>();
         
         const types : Type<any>[] = [ AbstractMethod, ApplicableAnnotation, Use ] as any[];
@@ -112,17 +136,17 @@ export class ControllerRouterFactory {
         return methods;
     }
     
-    protected getParamsForMethod(cls : Type<any>, method : string) : AbstractParam[] {
-        const annotations = Annotator.getParamAnnotations(cls, method);
+    protected getParamsForMethod(controllerType : Type<any>, method : string) : AbstractParam[] {
+        const annotations = Annotator.getParamAnnotations(controllerType, method);
         const result : AbstractParam[] = [];
         
         for(const [ index, paramAnnotations ] of annotations.entries()) {
             const p = paramAnnotations.filter(a => a instanceof AbstractParam);
             
             if(p.length === 0) {
-                throw new Error(`Missing param annotation for param ${index} of method ${cls.name}:${method}`);
+                throw new Error(`Missing param annotation for param ${index} of method ${controllerType.name}:${method}`);
             } else if(p.length > 1) {
-                throw new Error(`Too many param annotations for param ${index} of method ${cls.name}:${method}`);
+                throw new Error(`Too many param annotations for param ${index} of method ${controllerType.name}:${method}`);
             }
             
             result.push(p[ 0 ]);
@@ -214,6 +238,10 @@ export class ControllerRouterFactory {
     }
 }
 
+/**
+ * @internal
+ * @hidden
+ */
 async function applyApplicableAnnotations(app : ApplicableAnnotation[],
                                           type : 'before' | 'after' | 'end',
                                           args : { request : Request, response : Response, result? : any },
