@@ -1,25 +1,22 @@
 {
-  "name": "@neoskop/express-modules",
-  "version": "0.0.0",
+  "name": "@neoskop/nem",
+  "version": "0.1.0",
   "description": "Strucktured modules to build express apps",
-  "main": "bundle/express-modules.bundle.js",
-  "module": "dist/public_api.js",
-  "jsnext:main": "dist/public_api.js",
-  "typings": "dist/public_api.d.ts",
+  "main": "lib/public_api.js",
+  "typings": "lib/public_api.d.ts",
   "scripts": {
-    "test:raw": "TS_NODE_CACHE=false mocha --require ts-node/register 'src/**.spec.ts'",
-    "test:watch": "npm run test:raw -- --watch --watch-extension ts",
+    "test:raw": "TS_NODE_CACHE=false mocha --opts mocha.opts",
+    "test:watch": "npm run test:raw -- --watch",
     "test:coverage": "rimraf coverage && nyc -e '.ts' -r html -r text npm run test:raw",
     "test": "npm run test:coverage && nyc report -r text-lcov | coveralls",
-    "clean": "rimraf lib dist index.d.ts index.js index.js.map",
+    "clean": "rimraf lib",
     "prebuild": "npm run test:coverage",
-    "build": "npm run clean && npm run build:tsc && npm run build:rollup",
-    "build:tsc": "tsc -p tsconfig.esm.json",
-    "build:rollup": "rollup -c rollup.js"
+    "build": "npm run clean && tsc",
+    "docs": "typedoc"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/neoskop/express-modules.git"
+    "url": "git+https://github.com/neoskop/nem.git"
   },
   "keywords": [
     "express",
@@ -29,34 +26,61 @@
   "author": "Mark Wecke <mark.wecke@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/neoskop/express-modules/issues"
+    "url": "https://github.com/neoskop/nem/issues"
   },
-  "homepage": "https://github.com/neoskop/express-modules#readme",
+  "homepage": "https://github.com/neoskop/nem#readme",
   "devDependencies": {
+    "@angular/core": "5.2.7",
+    "@neoskop/injector": "1.2.1",
     "@types/chai": "4.0.4",
+    "@types/debug": "0.0.30",
+    "@types/express": "4.11.1",
+    "@types/express-session": "1.15.8",
+    "@types/http-status": "0.2.30",
     "@types/mocha": "2.2.43",
     "@types/node": "8.0.34",
+    "@types/sinon": "4.3.0",
+    "@types/sinon-chai": "2.7.29",
+    "@types/source-map-support": "0.4.0",
     "chai": "4.1.2",
     "coveralls": "3.0.0",
+    "ejs": "2.5.7",
+    "express-session": "1.15.6",
     "mocha": "4.0.1",
     "nyc": "11.2.1",
+    "reflect-metadata": "^0.1.12",
     "rimraf": "2.6.2",
     "rollup": "0.50.0",
     "rollup-plugin-commonjs": "8.2.1",
     "rollup-plugin-node-resolve": "3.0.0",
     "rollup-plugin-sourcemaps": "0.4.2",
-    "ts-node": "3.3.0",
+    "sinon": "4.4.2",
+    "sinon-chai": "2.14.0",
+    "ts-node": "5.0.1",
     "tslib": "1.9.0",
-    "typescript": "^2.6.0"
+    "typedoc": "0.11.1",
+    "typedoc-plugin-internal-external": "1.0.10",
+    "typescript": "^2.7.2"
   },
   "nyc": {
     "exclude": [
       "**/*.spec.ts",
+      "**/*.fixture.ts",
       "dist",
       "bundle"
     ]
   },
   "dependencies": {
-    "reflect-metadata": "0.1.12"
+    "debug": "3.1.0",
+    "express": "4.16.2",
+    "http-status": "1.0.1",
+    "rxjs": "5.5.6",
+    "source-map-support": "0.5.3",
+    "zone.js": "0.8.20"
+  },
+  "peerDependencies": {
+    "@angular/core": "^5.2.2",
+    "@neoskop/injector": "^1.2.1",
+    "reflect-metadata": "^0.1.12"
   }
 }

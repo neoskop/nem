@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+    <link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
+    <link rel="stylesheet" href="//cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <header class="column"><h1>Star Trek</h1></header>
+        </div>
+        <div class="row">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Rank</th>
+                        <th>Home</th>
+                    </tr>
+                </thead>
+                <tbody class="star-trek"></tbody>
+            </table>
+        </div>
+        <div class="row">
+            <header class="column"><h1>Star Wars</h1></header>
+        </div>
+        <div class="row">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Profession</th>
+                        <th>Home</th>
+                    </tr>
+                </thead>
+                <tbody class="star-wars"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        "use strict";
+
+        fetch('/star-trek').then(response => {
+            return response.json();
+        }).then(chars => {
+            const container = document.querySelector('tbody.star-trek');
+
+            for(const char of chars) {
+                container.appendChild(createElement('tr', [
+                    createElement('td', char.id),
+                    createElement('td', char.name),
+                    createElement('td', char.rank),
+                    createElement('td', char.home)
+                ]))
+            }
+        });
+
+        fetch('/star-wars').then(response => {
+            return response.json();
+        }).then(chars => {
+            const container = document.querySelector('tbody.star-wars');
+
+            for(const char of chars) {
+                container.appendChild(createElement('tr', [
+                    createElement('td', char.id),
+                    createElement('td', char.name),
+                    createElement('td', char.profession),
+                    createElement('td', char.home)
+                ]))
+            }
+        });
+
+        function createElement(tagName, content, attr) {
+            const element = document.createElement(tagName);
+
+            if(Array.isArray(content)) {
+                for(const elem of content) {
+                    element.appendChild(elem);
+                }
+            } else if(typeof content === 'string') {
+                element.innerText = content;
+            }
+
+            if(attr) {
+                for(const key of attr) {
+                    element[key] = attr[key];
+                }
+            }
+
+            return element;
+        }
+    </script>
+</body>
+</html>

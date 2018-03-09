@@ -1,4 +1,4 @@
-# @neoskop/express-modules
+# @neoskop/nem
 
 > Strucktured modules to build express apps
 
@@ -15,13 +15,41 @@ Develop
 ## Installation
 
 ```sh
-yarn add @neoskop/express-modules
+$ yarn add @neoskop/nem             # via yarn
+
+$ npm install --save @neoskop/nem   # via npm
 ```
 
 ## Usage
 
 ```typescript
+import { nem, NemModule, Controller, Get, View } from '@neoskop/nem';
+
+@Controller()
+export class ExampleController {
+    @Get('/')
+    @View('index')
+    index() {
+        return {
+            title: 'Example'
+        }
+    }
+}
+
+
+@NemModule({
+    controller: [
+        [ '/', ExampleController ]
+    ]
+})
+export class ExampleModule {
+
+}
+
+nem().bootstrap(ExampleModule).listen(8000);
 ```
+
+See [samples](./samples) for for more examples.
 
 ## Testing
 
@@ -64,19 +92,19 @@ SOFTWARE.
 
 [![Neoskop GmbH][neoskop-image]][neoskop-url]
 
-[travis-master-image]: https://img.shields.io/travis/neoskop/express-modules/master.svg
-[travis-master-url]: https://travis-ci.org/neoskop/express-modules
-[travis-develop-image]: https://img.shields.io/travis/neoskop/express-modules/develop.svg
-[travis-develop-url]: https://travis-ci.org/neoskop/express-modules
-[snyk-master-image]: https://snyk.io/test/github/neoskop/express-modules/master/badge.svg
-[snyk-master-url]: https://snyk.io/test/github/neoskop/express-modules/master
+[travis-master-image]: https://img.shields.io/travis/neoskop/nem/master.svg
+[travis-master-url]: https://travis-ci.org/neoskop/nem
+[travis-develop-image]: https://img.shields.io/travis/neoskop/nem/develop.svg
+[travis-develop-url]: https://travis-ci.org/neoskop/nem
+[snyk-master-image]: https://snyk.io/test/github/neoskop/nem/master/badge.svg
+[snyk-master-url]: https://snyk.io/test/github/neoskop/nem/master
 
-[coveralls-master-image]: https://coveralls.io/repos/github/neoskop/express-modules/badge.svg?branch=master
-[coveralls-master-url]: https://coveralls.io/github/neoskop/express-modules?branch=master
-[coveralls-develop-image]: https://coveralls.io/repos/github/neoskop/express-modules/badge.svg?branch=develop
-[coveralls-develop-url]: https://coveralls.io/github/neoskop/express-modules?branch=develop
-[snyk-develop-image]: https://snyk.io/test/github/neoskop/express-modules/develop/badge.svg
-[snyk-develop-url]: https://snyk.io/test/github/neoskop/express-modules/develop
+[coveralls-master-image]: https://coveralls.io/repos/github/neoskop/nem/badge.svg?branch=master
+[coveralls-master-url]: https://coveralls.io/github/neoskop/nem?branch=master
+[coveralls-develop-image]: https://coveralls.io/repos/github/neoskop/nem/badge.svg?branch=develop
+[coveralls-develop-url]: https://coveralls.io/github/neoskop/nem?branch=develop
+[snyk-develop-image]: https://snyk.io/test/github/neoskop/nem/develop/badge.svg
+[snyk-develop-url]: https://snyk.io/test/github/neoskop/nem/develop
 
 [neoskop-image]: ./neoskop.png
 [neoskop-url]: https://www.neoskop.de/

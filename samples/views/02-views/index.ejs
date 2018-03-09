@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%= title %></title>
+    <style>
+        html, body {
+            font-family: Helvetica, Arial, sans-serif;
+            font-size: 12px;
+            background: lightgreen;
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .box {
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            margin: 0 auto;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 5px 5px 5px rgba(0, 0, 0, .4);
+        }
+
+        h1 {
+            border-bottom: 1px solid lightgray;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h1><%= title %></h1>
+        <p><%= description %></p>
+    </div>
+</body>
+</html>
