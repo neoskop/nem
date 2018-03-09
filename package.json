@@ -1,6 +1,6 @@
 {
   "name": "@neoskop/nem",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Strucktured modules to build express apps",
   "main": "lib/public_api.js",
   "typings": "lib/public_api.d.ts",
@@ -10,7 +10,7 @@
     "test:coverage": "rimraf coverage && nyc -e '.ts' -r html -r text npm run test:raw",
     "test": "npm run test:coverage && nyc report -r text-lcov | coveralls",
     "clean": "rimraf lib",
-    "prebuild": "npm run test:coverage && npm run docs",
+    "prebuild": "npm run test:coverage",
     "build": "npm run clean && tsc",
     "docs": "typedoc"
   },
