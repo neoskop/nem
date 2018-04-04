@@ -56,7 +56,7 @@ export class ModuleRouterFactory {
     constructor(protected injector : Injector) {
     }
     
-    getRootProvider(moduleType : Type<any>) : Provider[] {
+    static getRootProvider(moduleType : Type<any>) : Provider[] {
         const metadata = this.assertModuleAnnotation(moduleType);
         
         return [
@@ -110,7 +110,7 @@ export class ModuleRouterFactory {
     
     protected initContext(moduleType : Type<any>, { providers = [], router = Router() } : { providers?: Provider[], router?: IRouter<any> }) : IModuleContext {
         const ctx : Partial<IModuleContext> = { router, moduleType };
-        ctx.metadata = this.assertModuleAnnotation(moduleType);
+        ctx.metadata = ModuleRouterFactory.assertModuleAnnotation(moduleType);
         ctx.injector = InjectorFactory.create({
             parent: this.injector,
             providers: [
@@ -126,7 +126,7 @@ export class ModuleRouterFactory {
         return ctx as IModuleContext;
     }
     
-    protected assertModuleAnnotation(moduleType : Type<any>) : NemModule {
+    protected static assertModuleAnnotation(moduleType : Type<any>) : NemModule {
         const annotations = Annotator.getCtorAnnotations(moduleType);
         
         for(const annotation of annotations) {
@@ -138,7 +138,7 @@ export class ModuleRouterFactory {
         throw new Error(`Class "${moduleType.name}" has no module annotation`);
     }
     
-    protected assertNemModuleWithProviders(arg : NemModuleWithProviders|Type<any>) : NemModuleWithProviders {
+    protected static assertNemModuleWithProviders(arg : NemModuleWithProviders|Type<any>) : NemModuleWithProviders {
         if(typeof arg === 'object' && arg.hasOwnProperty('nemModule')) {
             return arg as NemModuleWithProviders;
         }
@@ -151,7 +151,7 @@ export class ModuleRouterFactory {
     protected handleImport(module : [ string|RegExp, Type<any> | NemModuleWithProviders ] |Type<any> | NemModuleWithProviders, router : IRouter<any>) {
         if(Array.isArray(module)) {
             const [ path, mod ] = module;
-            const nemModule = this.assertNemModuleWithProviders(mod);
+            const nemModule = ModuleRouterFactory.assertNemModuleWithProviders(mod);
             debug('handle import', path, nemModule.nemModule.name);
             router.use(path, this.createRouterFromModule(nemModule.nemModule, {
                 providers: [
@@ -160,7 +160,7 @@ export class ModuleRouterFactory {
                 ]
             }).router);
         } else {
-            const { nemModule, providers } = this.assertNemModuleWithProviders(module);
+            const { nemModule, providers } = ModuleRouterFactory.assertNemModuleWithProviders(module);
             debug('handle import', nemModule.name);
             this.createRouterFromModule(nemModule, { providers, router });
         }
