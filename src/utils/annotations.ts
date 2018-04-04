@@ -9,25 +9,25 @@
  * @internal
  * @hidden
  */
-const ANNOTATIONS = '__ANNOTATIONS__';
+export const ANNOTATIONS = '__ANNOTATIONS__';
 
 /**
  * @internal
  * @hidden
  */
-const PROPS = '__PROPS__';
+export const PROPS = '__PROPS__';
 
 /**
  * @internal
  * @hidden
  */
-const CTOR_PARAMS = '__CTOR_PARAMS__';
+export const CTOR_PARAMS = '__CTOR_PARAMS__';
 
 /**
  * @internal
  * @hidden
  */
-const PARAMS = '__PARAMS__';
+export const PARAMS = '__PARAMS__';
 
 export interface Type<T> extends Function {
     new (...args : any[]) : T;
