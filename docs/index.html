@@ -108,6 +108,18 @@ $ npm install --save @neoskop/nem   <span class="hljs-comment"># via npm</span>
 nem().bootstrap(ExampleModule).listen(<span class="hljs-number">8000</span>);
 </code></pre>
 				<p>See <a href="./samples">samples</a> for for more examples.</p>
+				<h3 id="dependency-injection">Dependency Injection</h3>
+				<pre><code>                                                                        +-----------------------+
+                                                                        |<span class="hljs-string">     rootProviders     </span>|
+                                                                        v                       |<span class="hljs-string">
++------------------------------+     +--------------------+     +---------------+     +-----------------+     +---------------------+
+</span>|<span class="hljs-string"> Provided Injector (Optional) </span>|<span class="hljs-string"> --&gt; </span>|<span class="hljs-string"> Bootstrap Injector </span>|<span class="hljs-string"> --&gt; </span>|<span class="hljs-string"> Root Injector </span>|<span class="hljs-string"> --&gt; </span>|<span class="hljs-string"> Module Injector </span>|<span class="hljs-string"> --&gt; </span>|<span class="hljs-string"> Controller Injector </span>|<span class="hljs-string"> 
++------------------------------+     +--------------------+     +---------------+  ^  +-----------------+  </span>|<span class="hljs-string">  +---------------------+
+                                                                                   </span>|<span class="hljs-string">                       </span>|
+                                                                                   |<span class="hljs-string">     Nested Modules    </span>|
+                                                                                   +-----------------------+
+</code></pre><p>The bootstrap injector contains the required dependencies to bootstrap the app, 
+				the root injector inherits from the bootstrap injector and contains all global depenendencies.<br>The module injectors inherits from the parent module injector or the root injector for the root module.</p>
 				<h2 id="testing">Testing</h2>
 				<pre><code class="lang-sh">yarn <span class="hljs-built_in">test</span>
 </code></pre>
@@ -185,7 +197,7 @@ nem().bootstrap(ExampleModule).listen(<span class="hljs-number">8000</span>);
 					<li class=" tsd-kind-class tsd-is-external">
 						<a href="classes/modulerouterfactory.html" class="tsd-kind-icon">Module<wbr>Router<wbr>Factory</a>
 					</li>
-					<li class=" tsd-kind-class">
+					<li class=" tsd-kind-class tsd-is-external">
 						<a href="classes/nembootstrap.html" class="tsd-kind-icon">Nem<wbr>Bootstrap</a>
 					</li>
 					<li class=" tsd-kind-class tsd-is-external">
