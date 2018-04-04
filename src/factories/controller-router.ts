@@ -194,8 +194,6 @@ export class ControllerRouterFactory {
                             }
                         })
                     ], 'end', { request, response, result: result.result }, { stopAfterFirst: true });
-                    
-                    next();
                 } catch(e) {
                     console.log('catch', e);
                     next(e);
