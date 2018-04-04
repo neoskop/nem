@@ -83,9 +83,6 @@ export const ROOT_PROVIDER : Provider[] = [
     }
 ];
 
-/**
- * @internal
- */
 export class NemBootstrap {
     protected injector : Injector = InjectorFactory.create({
         name: 'BootstrapInjector',

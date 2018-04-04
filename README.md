@@ -51,6 +51,24 @@ nem().bootstrap(ExampleModule).listen(8000);
 
 See [samples](./samples) for for more examples.
 
+### Dependency Injection
+
+```
+                                                                        +-----------------------+
+                                                                        |     rootProviders     |
+                                                                        v                       |
++------------------------------+     +--------------------+     +---------------+     +-----------------+     +---------------------+
+| Provided Injector (Optional) | --> | Bootstrap Injector | --> | Root Injector | --> | Module Injector | --> | Controller Injector | 
++------------------------------+     +--------------------+     +---------------+  ^  +-----------------+  |  +---------------------+
+                                                                                   |                       |
+                                                                                   |     Nested Modules    |
+                                                                                   +-----------------------+
+```
+
+The bootstrap injector contains the required dependencies to bootstrap the app, 
+the root injector inherits from the bootstrap injector and contains all global depenendencies.  
+The module injectors inherits from the parent module injector or the root injector for the root module.
+
 ## Testing
 
 ```sh
