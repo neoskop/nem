@@ -1,6 +1,6 @@
 {
   "name": "@neoskop/nem",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "description": "Strucktured modules to build express apps",
   "main": "lib/public_api.js",
   "typings": "lib/public_api.d.ts",
