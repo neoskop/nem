@@ -44,8 +44,6 @@ export function nem(options : INemOptions = {}) : NemBootstrap {
  * @hidden
  */
 const BOOTSTRAP_PROVIDER : Provider[] = [
-    ParamFactory,
-    ModuleRouterFactory,
     { provide: NemRootZone, useValue: Zone.root },
     { provide: ERROR_HANDLER, useValue: defaultErrorHandler },
     { provide: VIEW_ENGINE, useValue: 'ejs' }
@@ -80,7 +78,9 @@ export const ROOT_PROVIDER : Provider[] = [
         },
         deps: [ APP, ERROR_HANDLER ],
         multi: true
-    }
+    },
+    ParamFactory,
+    ModuleRouterFactory,
 ];
 
 export class NemBootstrap {
@@ -98,7 +98,6 @@ export class NemBootstrap {
     }
     
     bootstrap(module : Type<any>, { app = express(), server = createServer(app) } : { app?: express.Application, server?: Server } = {}) : NemBootstrappedModule {
-        const factory = this.injector.get(ModuleRouterFactory);
         const injector = InjectorFactory.create({
             name: 'RootInjector',
             providers: [
@@ -106,10 +105,11 @@ export class NemBootstrap {
                 copyMultiProvider(MULTI_TOKENS_FROM_PARENT, this.injector),
                 { provide: APP, useValue: app },
                 { provide: SERVER, useValue: server },
-                ...factory.getRootProvider(module)
+                ...ModuleRouterFactory.getRootProvider(module)
             ],
             parent: this.injector
         });
+        const factory = injector.get(ModuleRouterFactory);
         
         const bootstrapListenerBefore = injector.get(BOOTSTRAP_LISTENER_BEFORE, []);
         for(const listener of bootstrapListenerBefore) {
