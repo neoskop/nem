@@ -7,7 +7,7 @@ import { Param, QueryParam } from '../src/metadata/params';
 import 'zone.js';
 import { NemModule } from '../src/metadata/module';
 import { nem } from '../src/bootstrap';
-import { BASE_PATHS, VIEWS } from '../src/tokens';
+import { VIEWS } from '../src/tokens';
 import { Result } from '../src/metadata/result';
 
 @Controller({
@@ -17,8 +17,8 @@ import { Result } from '../src/metadata/result';
 })
 export class SimpleController {
     
-    constructor(@Inject('FOO') protected foo : string, @Inject(BASE_PATHS) protected basePaths : (string|RegExp)[]) {
-        console.log({ foo, basePaths });
+    constructor(@Inject('FOO') protected foo : string) {
+        console.log({ foo });
     }
     
     @Get('/')

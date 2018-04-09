@@ -14,6 +14,7 @@ import { defaultErrorHandler } from './errors/error-handler';
 import { copyMultiProvider } from './utils/misc';
 import { Application, ErrorRequestHandler } from 'express';
 import { Server, createServer } from 'http';
+import { ControllerRouterFactory } from './factories/controller-router';
 
 /**
  * Bootstraping options
@@ -81,6 +82,7 @@ export const ROOT_PROVIDER : Provider[] = [
     },
     ParamFactory,
     ModuleRouterFactory,
+    ControllerRouterFactory
 ];
 
 export class NemBootstrap {
@@ -105,7 +107,7 @@ export class NemBootstrap {
                 copyMultiProvider(MULTI_TOKENS_FROM_PARENT, this.injector),
                 { provide: APP, useValue: app },
                 { provide: SERVER, useValue: server },
-                ...ModuleRouterFactory.getRootProvider(module)
+                ...ModuleRouterFactory.getProviders(module)
             ],
             parent: this.injector
         });

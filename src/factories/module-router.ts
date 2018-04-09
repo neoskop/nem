@@ -1,22 +1,12 @@
 import { IRouter, Router } from 'express';
 import { Annotator, Type } from '../utils/annotations';
 import { NemModule, NemModuleWithProviders } from '../metadata/module';
-import { Injector, InjectorFactory, Provider, Injectable } from '@neoskop/injector';
+import { Injectable, Injector, Provider } from '@neoskop/injector';
 import { ControllerRouterFactory } from './controller-router';
-import { BASE_PATHS, MULTI_TOKENS_FROM_PARENT, VIEW_PREFIX } from '../tokens';
-import { copyMultiProvider } from '../utils/misc';
 
 /** @hidden */
 const debug = require('debug')('nem:factory:module');
 
-/**
- * @internal
- * @hidden
- */
-export const MODULE_FACTORY_PROVIDER : Provider[] = [
-    { provide: VIEW_PREFIX, useValue: undefined },
-    ControllerRouterFactory
-];
 
 export interface IModuleContext<T = any> {
     /**
@@ -28,11 +18,6 @@ export interface IModuleContext<T = any> {
      * The module metadata
      */
     metadata : NemModule;
-    
-    /**
-     * The module injector
-     */
-    injector : Injector;
     
     /**
      * The controller factory
@@ -56,22 +41,23 @@ export class ModuleRouterFactory {
     constructor(protected injector : Injector) {
     }
     
-    static getRootProvider(moduleType : Type<any>) : Provider[] {
+    static getProviders(moduleType : Type<any>) : Provider[] {
         const metadata = this.assertModuleAnnotation(moduleType);
         
         return [
-            ...(metadata.rootProviders || []),
+            moduleType,
+            ...(metadata.providers || []),
             ...(metadata.modules || []).map(declaration => {
                 const nemModule = this.assertNemModuleWithProviders(Array.isArray(declaration) ? declaration[1] : declaration);
                 return [
-                    this.getRootProvider(nemModule.nemModule),
-                    ...(nemModule.rootProviders || [])
+                    this.getProviders(nemModule.nemModule),
+                    ...(nemModule.providers || [])
                 ]
             }).reduce((t, c) => t.concat(c), [])
         ]
     }
     
-    createRouterFromModule(moduleType : Type<any>, options : { providers?: Provider[], router?: IRouter<any> } = {}) : IModuleContext {
+    createRouterFromModule(moduleType : Type<any>, options : { router?: IRouter<any> } = {}) : IModuleContext {
         debug('create router from module', moduleType.name);
         
         const ctx = this.initContext(moduleType, options);
@@ -96,34 +82,23 @@ export class ModuleRouterFactory {
         
         if(ctx.metadata.controller) {
             for(const [ path, controller ] of ctx.metadata.controller) {
-                this.handleRouter(path, ctx.factory.createRouterFromController(controller, {
-                    providers: [
-                        { provide: BASE_PATHS, useValue: path, multi: true }
-                    ]
-                }), ctx.router);
+                this.handleRouter(path, ctx.factory.createRouterFromController(controller), ctx.router);
             }
         }
-        ctx.module = ctx.injector.get(moduleType);
+        ctx.module = this.injector.get(moduleType);
     
         return ctx;
     }
     
-    protected initContext(moduleType : Type<any>, { providers = [], router = Router() } : { providers?: Provider[], router?: IRouter<any> }) : IModuleContext {
-        const ctx : Partial<IModuleContext> = { router, moduleType };
-        ctx.metadata = ModuleRouterFactory.assertModuleAnnotation(moduleType);
-        ctx.injector = InjectorFactory.create({
-            parent: this.injector,
-            providers: [
-                ...copyMultiProvider(MULTI_TOKENS_FROM_PARENT, this.injector),
-                ...MODULE_FACTORY_PROVIDER,
-                ...providers,
-                ...(ctx.metadata.providers || []),
-                moduleType
-            ]
-        });
-        ctx.factory = ctx.injector.get(ControllerRouterFactory);
+    protected initContext(moduleType : Type<any>, { router = Router() } : { router?: IRouter<any> }) : IModuleContext {
+        const ctx : IModuleContext = {
+            router,
+            moduleType,
+            metadata: ModuleRouterFactory.assertModuleAnnotation(moduleType),
+            factory: this.injector.get(ControllerRouterFactory)
+        };
         
-        return ctx as IModuleContext;
+        return ctx;
     }
     
     protected static assertModuleAnnotation(moduleType : Type<any>) : NemModule {
@@ -153,16 +128,11 @@ export class ModuleRouterFactory {
             const [ path, mod ] = module;
             const nemModule = ModuleRouterFactory.assertNemModuleWithProviders(mod);
             debug('handle import', path, nemModule.nemModule.name);
-            router.use(path, this.createRouterFromModule(nemModule.nemModule, {
-                providers: [
-                    ...(nemModule.providers || []),
-                    { provide: BASE_PATHS, useValue: path, multi: true }
-                ]
-            }).router);
+            router.use(path, this.createRouterFromModule(nemModule.nemModule).router);
         } else {
-            const { nemModule, providers } = ModuleRouterFactory.assertNemModuleWithProviders(module);
+            const { nemModule } = ModuleRouterFactory.assertNemModuleWithProviders(module);
             debug('handle import', nemModule.name);
-            this.createRouterFromModule(nemModule, { providers, router });
+            this.createRouterFromModule(nemModule, { router });
         }
     }
     

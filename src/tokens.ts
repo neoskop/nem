@@ -5,11 +5,6 @@ import { IMiddleware } from './interfaces/middleware';
 import { Server } from 'http';
 
 /**
- * Provides an array of path parts to current controller/module
- */
-export const BASE_PATHS = new InjectionToken<(string|RegExp)[]>('BasePaths');
-
-/**
  * Provides the default error handler
  * @see {@link defaultErrorHandler}
  */
@@ -77,7 +72,6 @@ export const BOOTSTRAP_LISTENER_AFTER = new InjectionToken<Function[]>('Bootstra
  * @hidden
  */
 export const MULTI_TOKENS_FROM_PARENT = [
-    BASE_PATHS,
     VIEWS,
     BOOTSTRAP_LISTENER_BEFORE,
     BOOTSTRAP_LISTENER_AFTER
