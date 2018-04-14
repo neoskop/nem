@@ -7,6 +7,7 @@ export abstract class AbstractParam {
     resolve!: (options: this, req : Request) => any;
     parse?: (arg : any, options : this, req : Request) => any;
     required?: boolean;
+    paramName?: string;
 }
 
 export interface ParamOptions {
