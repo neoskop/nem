@@ -23,6 +23,7 @@ import {
     Redirect,
     StatusCode,
     Text,
+    Noop,
     View
 } from './controller';
 import * as sinon from 'sinon';
@@ -104,6 +105,9 @@ class TestClass {
     
     @Text()
     text() {}
+    
+    @Noop()
+    noop() {}
     
     @OnUndefined(404)
     onUndefinedWithStatus() {}
@@ -378,6 +382,26 @@ describe('metadata/controller', () => {
                 rawAnnotation.end(rawAnnotation, { result: {} });
             }).to.throw('Invalid return type. Expected "string", "object" given')
         })
+    });
+    
+    describe('Noop', () => {
+        it('should store metadata', () => {
+            const annotations = Annotator.getPropAnnotations(TestClass, 'noop');
+            
+            expect(annotations).to.be.an('array').with.length(1);
+            expect(annotations[ 0 ]).to.be.instanceOf(Noop).and.instanceOf(ApplicableAnnotation);
+        });
+        
+        it('must not send response', () => {
+            const end = sinon.spy();
+            const response = { end };
+            
+            const [ rawAnnotation ] = Annotator.getPropAnnotations(TestClass, 'noop');
+            
+            rawAnnotation.end(rawAnnotation, { response });
+            
+            expect(end).not.to.have.been.called;
+        });
     });
     
     describe('OnUndefined', () => {

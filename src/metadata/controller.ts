@@ -582,6 +582,38 @@ export const Text : TextDecorator = Annotator.makePropDecorator('Text', () => ({
 }), ApplicableAnnotation);
 
 /**
+ * Type of Noop decorator
+ */
+export interface NoopDecorator {
+    /**
+     * Defines controller handler to do nothing
+     * @example
+     * ```
+     * @Controller()
+     * export class TestController {
+     *   @Post('/login')
+     *   @Use(passport.authenticate({ successRedirect: '/', failureRedirect: '/login' })
+     *   @Noop()
+     *   doLogin() {}
+     * }
+     * ```
+     */
+    () : any;
+    new () : Noop;
+}
+
+/**
+ * Type of Noop metadata
+ */
+export interface Noop extends ApplicableAnnotation {
+
+}
+
+export const Noop : NoopDecorator = Annotator.makePropDecorator('Noop', () => ({
+    end() {}
+}), ApplicableAnnotation);
+
+/**
  * Type of OnUndefined decorator
  */
 export interface OnUndefinedDecorator {
