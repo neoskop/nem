@@ -16,6 +16,10 @@ export class ParamFactory {
             value = await metadata.parse(value, metadata, request);
         }
         
+        if(metadata.validate && !metadata.validate(value, metadata, request)) {
+            throw new BadRequestError(`${(metadata as any).name} "${metadata.paramName}" invalid`)
+        }
+        
         return value;
     }
 }

@@ -6,6 +6,7 @@ import { Annotator } from '../utils/annotations';
 export abstract class AbstractParam {
     resolve!: (options: this, req : Request) => any;
     parse?: (arg : any, options : this, req : Request) => any;
+    validate?: (arg : any, options : this, req : Request) => boolean;
     required?: boolean;
     paramName?: string;
 }
@@ -13,11 +14,13 @@ export abstract class AbstractParam {
 export interface ParamOptions {
     type?: any;
     parse?: (arg: any, options : this, req : Request) => any;
+    validate?: (arg : any, options : this, req : Request) => boolean;
     required?: boolean;
 }
 
 export interface ParamsOptions {
     parse?: (arg: any, options : this, req : Request) => any;
+    validate?: (arg : any, options : this, req : Request) => boolean;
 }
 
 /**

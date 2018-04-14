@@ -108,6 +108,17 @@ describe('factories/param', () => {
                     expect(e.message).to.be.equal('QueryParam "foobar" required');
                 }
             })
+            
+            it('should use validate function', async () => {
+                const queryParam = new QueryParam('foo', { required: true, validate: value => value === '2' });
+    
+                try {
+                    await factory.getParameterFromMetadataAndRequest(queryParam, REQUEST);
+                    expect.fail('should throw');
+                } catch(e) {
+                    expect(e.message).to.be.equal('QueryParam "foo" invalid');
+                }
+            })
         });
     });
 });
