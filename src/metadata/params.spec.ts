@@ -231,7 +231,7 @@ describe('metadata/params', () => {
         });
     });
     
-    describe('Header', () => {
+    describe('HeaderParam', () => {
         
         it('should store metadata', () => {
             const annotations = Annotator.getParamAnnotations(TestClass, 'header');
