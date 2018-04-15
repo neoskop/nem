@@ -1,7 +1,7 @@
 import { Request } from 'express';
 
 import { Annotator } from '../utils/annotations';
-
+import { BadRequestError } from '../errors/http';
 
 export abstract class AbstractParam {
     resolve!: (options: this, req : Request) => any;
@@ -9,6 +9,7 @@ export abstract class AbstractParam {
     validate?: (arg : any, options : this, req : Request) => boolean;
     required?: boolean;
     paramName?: string;
+    type?: any;
 }
 
 export interface ParamOptions {
@@ -21,6 +22,40 @@ export interface ParamOptions {
 export interface ParamsOptions {
     parse?: (arg: any, options : this, req : Request) => any;
     validate?: (arg : any, options : this, req : Request) => boolean;
+}
+
+export function parse(value : any, metadata  : AbstractParam) {
+    if(null == value) {
+        return value;
+    }
+    
+    switch(metadata.type) {
+        case 'string':
+        case 'String':
+        case String: return String(value);
+        case 'number':
+        case 'Number':
+        case 'float':
+        case 'Float':
+        case Number: {
+            const float = parseFloat(value);
+            if(Number.isNaN(float)) {
+                throw new BadRequestError(`${(metadata as any).name} "${metadata.paramName}" invalid, float expected`);
+            }
+            return float;
+        }
+        case 'int':
+        case 'Int':
+        case 'integer':
+        case 'Integer': {
+            const int = parseInt(value, 10);
+            if(Number.isNaN(int)) {
+                throw new BadRequestError(`${(metadata as any).name} "${metadata.paramName}" invalid, integer expected`);
+            }
+            return int;
+        }
+        default: return value;
+    }
 }
 
 /**
@@ -57,6 +92,7 @@ export const QueryParam : QueryParamDecorator = Annotator.makeParamDecorator(
     (paramName: string, options: ParamOptions = {}) => ({
         required: false,
         type: String,
+        parse,
         ...options,
         paramName,
         resolve: (options : QueryParam, req : Request) => req.query[options.paramName]
@@ -133,6 +169,7 @@ export const Param : ParamDecorator = Annotator.makeParamDecorator(
     (paramName: string, options: ParamOptions = {}) => ({
         required: true,
         type: String,
+        parse,
         ...options,
         paramName,
         resolve: (options : Param, req : Request) => req.params[options.paramName]
@@ -206,7 +243,7 @@ export const BodyParam : BodyParamDecorator = Annotator.makeParamDecorator(
     'BodyParam',
     (paramName: string, options: ParamOptions = {}) => ({
         required: false,
-        type: String,
+        parse,
         ...options,
         paramName,
         resolve: (options : BodyParam, req : Request) => req.body[options.paramName]
@@ -287,7 +324,7 @@ export const HeaderParam : HeaderParamDecorator = Annotator.makeParamDecorator(
     'HeaderParam',
     (headerName: string, options: ParamOptions = {}) => ({
         required: false,
-        type: String,
+        parse,
         ...options,
         headerName,
         resolve: (options : HeaderParam, req : Request) => req.headers[options.headerName.toLowerCase()]
@@ -361,7 +398,7 @@ export const SessionParam : SessionParamDecorator = Annotator.makeParamDecorator
     'SessionParam',
     (paramName: string, options: ParamOptions = {}) => ({
         required: false,
-        type: String,
+        parse,
         ...options,
         paramName,
         resolve: (options : SessionParam, req : Request) => (req as any).session![options.paramName]
@@ -430,7 +467,7 @@ export interface SessionIdDecorator {
 export interface SessionId extends AbstractParam {}
 
 export const SessionId : SessionIdDecorator = Annotator.makeParamDecorator(
-    'Session',
+    'SessionId',
     () => ({
         resolve: (_options : Session, req : Request) => (req as any).sessionID
     }),
