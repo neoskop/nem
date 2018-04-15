@@ -97,6 +97,28 @@ describe('factories/param', () => {
                 
                 expect(queryParam.parse).to.have.been.calledOnce.and.calledWith('1', queryParam, REQUEST);
             });
+            
+            it('should fail when required field is missing', async () => {
+                const queryParam = new QueryParam('foobar', { required: true });
+                
+                try {
+                    await factory.getParameterFromMetadataAndRequest(queryParam, REQUEST);
+                    expect.fail('should throw');
+                } catch(e) {
+                    expect(e.message).to.be.equal('QueryParam "foobar" required');
+                }
+            })
+            
+            it('should use validate function', async () => {
+                const queryParam = new QueryParam('foo', { required: true, validate: value => value === '2' });
+    
+                try {
+                    await factory.getParameterFromMetadataAndRequest(queryParam, REQUEST);
+                    expect.fail('should throw');
+                } catch(e) {
+                    expect(e.message).to.be.equal('QueryParam "foo" invalid');
+                }
+            })
         });
     });
 });

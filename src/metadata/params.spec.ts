@@ -3,11 +3,11 @@ import { expect } from 'chai';
 import {
     AbstractParam,
     Body,
-    BodyParam,
+    BodyParam, Err,
     HeaderParam,
     Headers,
     Param,
-    Params,
+    Params, parse,
     QueryParam,
     QueryParams,
     Req,
@@ -55,6 +55,8 @@ class TestClass {
     request(@Req() _a : any) {}
     
     response(@Res() _a : any) {}
+    
+    error(@Err() _a : any) {}
 }
 
 describe('metadata/params', () => {
@@ -68,8 +70,41 @@ describe('metadata/params', () => {
             headers  : { 'accepts': 'text/plain' },
             session  : { 'sess': 'sess-value' },
             sessionID: '5355ID',
-            res: Symbol('Response')
+            res: Symbol('Response'),
+            err: Symbol('Error')
         } as any
+    });
+    
+    describe('parse', () => {
+        it('should return null untouched', () => {
+            expect(parse(null, {} as any)).to.be.null;
+        });
+        
+        it('should return undefined untouched', () => {
+            expect(parse(undefined, {} as any)).to.be.undefined;
+        });
+        
+        it('should parse string', () => {
+            expect(parse(1337, { type: 'string' } as any)).to.be.equal('1337');
+            expect(parse(1337, { type: 'String' } as any)).to.be.equal('1337');
+            expect(parse(1337, { type: String } as any)).to.be.equal('1337');
+        });
+        
+        it('should parse float', () => {
+            expect(parse('1.337', { type: 'number' } as any)).to.be.equal(1.337);
+            expect(parse('1.337', { type: 'Number' } as any)).to.be.equal(1.337);
+            expect(parse('1.337', { type: 'float' } as any)).to.be.equal(1.337);
+            expect(parse('1.337', { type: 'Float' } as any)).to.be.equal(1.337);
+            expect(parse('1.337', { type: Number } as any)).to.be.equal(1.337);
+        });
+        
+        it('should throw on invalid float value', () => {
+            expect(() => parse('invalid', { name: 'Type', paramName: 'name', type: 'number' } as any)).to.throw('Type "name" invalid, float expected');
+            expect(() => parse('invalid', { name: 'Type', paramName: 'name', type: 'Number' } as any)).to.throw('Type "name" invalid, float expected');
+            expect(() => parse('invalid', { name: 'Type', paramName: 'name', type: 'float' } as any)).to.throw('Type "name" invalid, float expected');
+            expect(() => parse('invalid', { name: 'Type', paramName: 'name', type: 'Float' } as any)).to.throw('Type "name" invalid, float expected');
+            expect(() => parse('invalid', { name: 'Type', paramName: 'name', type: Number } as any)).to.throw('Type "name" invalid, float expected');
+        });
     });
     
     describe('QueryParam', () => {
@@ -82,11 +117,12 @@ describe('metadata/params', () => {
             
             expect(annotations[ 0 ][ 0 ]).to.be.instanceOf(QueryParam).and.instanceOf(AbstractParam);
             
-            expect(annotations[ 0 ][ 0 ]).to.have.keys('paramName', 'type', 'required', 'resolve');
+            expect(annotations[ 0 ][ 0 ]).to.have.keys('paramName', 'type', 'required', 'resolve', 'parse');
             for(const [ key, value ] of Object.entries({
                 paramName: 'foobar',
                 type     : Number,
-                required : false
+                required : false,
+                parse
             })) {
                 expect(annotations[ 0 ][ 0 ][ key ]).to.be.equal(value);
             }
@@ -99,6 +135,12 @@ describe('metadata/params', () => {
             expect(annotation.resolve.length).to.be.equal(2);
             
             expect(annotation.resolve(annotation, REQ)).to.be.equal('baz');
+        });
+        
+        it('should parse value', () => {
+            const annotation = new QueryParam('nr', { type: Number });
+            
+            expect(annotation.parse!('1', annotation, REQ)).to.be.equal(1);
         });
     });
     
@@ -135,11 +177,12 @@ describe('metadata/params', () => {
             
             expect(annotations[ 0 ][ 0 ]).to.be.instanceOf(Param).and.instanceOf(AbstractParam);
             
-            expect(annotations[ 0 ][ 0 ]).to.have.keys('paramName', 'type', 'required', 'resolve');
+            expect(annotations[ 0 ][ 0 ]).to.have.keys('paramName', 'type', 'required', 'resolve', 'parse');
             for(const [ key, value ] of Object.entries({
                 paramName: 'baz',
                 type     : String,
-                required : true
+                required : true,
+                parse
             })) {
                 expect(annotations[ 0 ][ 0 ][ key ]).to.be.equal(value);
             }
@@ -152,6 +195,14 @@ describe('metadata/params', () => {
             expect(annotation.resolve.length).to.be.equal(2);
             
             expect(annotation.resolve(annotation, REQ)).to.be.equal('bar');
+        });
+    
+    
+    
+        it('should parse value', () => {
+            const annotation = new Param('nr', { type: Number });
+        
+            expect(annotation.parse!('2', annotation, REQ)).to.be.equal(2);
         });
     });
     
@@ -188,11 +239,11 @@ describe('metadata/params', () => {
             
             expect(annotations[ 0 ][ 0 ]).to.be.instanceOf(BodyParam).and.instanceOf(AbstractParam);
             
-            expect(annotations[ 0 ][ 0 ]).to.have.keys('paramName', 'type', 'required', 'resolve');
+            expect(annotations[ 0 ][ 0 ]).to.have.keys('paramName', 'required', 'resolve', 'parse');
             for(const [ key, value ] of Object.entries({
                 paramName: 'foo',
-                type     : String,
-                required : false
+                required : false,
+                parse
             })) {
                 expect(annotations[ 0 ][ 0 ][ key ]).to.be.equal(value);
             }
@@ -205,6 +256,12 @@ describe('metadata/params', () => {
             expect(annotation.resolve.length).to.be.equal(2);
             
             expect(annotation.resolve(annotation, REQ)).to.be.equal('bar');
+        });
+    
+        it('should parse value', () => {
+            const annotation = new BodyParam('nr', { type: Number });
+        
+            expect(annotation.parse!('3', annotation, REQ)).to.be.equal(3);
         });
     });
     
@@ -231,7 +288,7 @@ describe('metadata/params', () => {
         });
     });
     
-    describe('Header', () => {
+    describe('HeaderParam', () => {
         
         it('should store metadata', () => {
             const annotations = Annotator.getParamAnnotations(TestClass, 'header');
@@ -241,11 +298,11 @@ describe('metadata/params', () => {
             
             expect(annotations[ 0 ][ 0 ]).to.be.instanceOf(HeaderParam).and.instanceOf(AbstractParam);
             
-            expect(annotations[ 0 ][ 0 ]).to.have.keys('headerName', 'type', 'required', 'resolve');
+            expect(annotations[ 0 ][ 0 ]).to.have.keys('headerName', 'required', 'resolve', 'parse');
             for(const [ key, value ] of Object.entries({
                 headerName: 'Accepts',
-                type      : String,
-                required  : false
+                required  : false,
+                parse
             })) {
                 expect(annotations[ 0 ][ 0 ][ key ]).to.be.equal(value);
             }
@@ -258,6 +315,12 @@ describe('metadata/params', () => {
             expect(annotation.resolve.length).to.be.equal(2);
             
             expect(annotation.resolve(annotation, REQ)).to.be.equal('text/plain');
+        });
+    
+        it('should parse value', () => {
+            const annotation = new HeaderParam('nr', { type: Number });
+        
+            expect(annotation.parse!('4', annotation, REQ)).to.be.equal(4);
         });
     });
     
@@ -294,11 +357,11 @@ describe('metadata/params', () => {
             
             expect(annotations[ 0 ][ 0 ]).to.be.instanceOf(SessionParam).and.instanceOf(AbstractParam);
             
-            expect(annotations[ 0 ][ 0 ]).to.have.keys('paramName', 'type', 'required', 'resolve');
+            expect(annotations[ 0 ][ 0 ]).to.have.keys('paramName', 'required', 'resolve', 'parse');
             for(const [ key, value ] of Object.entries({
                 paramName: 'sess',
-                type     : String,
-                required : false
+                required : false,
+                parse
             })) {
                 expect(annotations[ 0 ][ 0 ][ key ]).to.be.equal(value);
             }
@@ -311,6 +374,12 @@ describe('metadata/params', () => {
             expect(annotation.resolve.length).to.be.equal(2);
             
             expect(annotation.resolve(annotation, REQ)).to.be.equal('sess-value');
+        });
+    
+        it('should parse value', () => {
+            const annotation = new HeaderParam('nr', { type: Number });
+        
+            expect(annotation.parse!('5', annotation, REQ)).to.be.equal(5);
         });
     });
     
@@ -403,6 +472,29 @@ describe('metadata/params', () => {
             expect(annotation.resolve.length).to.be.equal(2);
             
             expect(annotation.resolve(annotation, REQ)).to.be.equal((REQ as any).res);
+        });
+    });
+    
+    describe('Err', () => {
+        
+        it('should store metadata', () => {
+            const annotations = Annotator.getParamAnnotations(TestClass, 'error');
+            
+            expect(annotations).to.be.an('array').with.length(1);
+            expect(annotations[ 0 ]).to.be.an('array').with.length(1);
+            
+            expect(annotations[ 0 ][ 0 ]).to.be.instanceOf(Err).and.instanceOf(AbstractParam);
+            
+            expect(annotations[ 0 ][ 0 ]).to.have.keys('resolve');
+        });
+        
+        it('should resolve value from request', () => {
+            const [ [ annotation ] ] = Annotator.getParamAnnotations(TestClass, 'error');
+            
+            expect(annotation.resolve).to.be.a('function');
+            expect(annotation.resolve.length).to.be.equal(2);
+            
+            expect(annotation.resolve(annotation, REQ)).to.be.equal((REQ as any).err);
         });
     });
 });

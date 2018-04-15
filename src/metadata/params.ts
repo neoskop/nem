@@ -1,22 +1,61 @@
 import { Request } from 'express';
 
 import { Annotator } from '../utils/annotations';
-
+import { BadRequestError } from '../errors/http';
 
 export abstract class AbstractParam {
     resolve!: (options: this, req : Request) => any;
     parse?: (arg : any, options : this, req : Request) => any;
+    validate?: (arg : any, options : this, req : Request) => boolean;
     required?: boolean;
+    paramName?: string;
+    type?: any;
 }
 
 export interface ParamOptions {
     type?: any;
     parse?: (arg: any, options : this, req : Request) => any;
+    validate?: (arg : any, options : this, req : Request) => boolean;
     required?: boolean;
 }
 
 export interface ParamsOptions {
     parse?: (arg: any, options : this, req : Request) => any;
+    validate?: (arg : any, options : this, req : Request) => boolean;
+}
+
+export function parse(value : any, metadata  : AbstractParam) {
+    if(null == value) {
+        return value;
+    }
+    
+    switch(metadata.type) {
+        case 'string':
+        case 'String':
+        case String: return String(value);
+        case 'number':
+        case 'Number':
+        case 'float':
+        case 'Float':
+        case Number: {
+            const float = parseFloat(value);
+            if(Number.isNaN(float)) {
+                throw new BadRequestError(`${(metadata as any).name} "${metadata.paramName}" invalid, float expected`);
+            }
+            return float;
+        }
+        case 'int':
+        case 'Int':
+        case 'integer':
+        case 'Integer': {
+            const int = parseInt(value, 10);
+            if(Number.isNaN(int)) {
+                throw new BadRequestError(`${(metadata as any).name} "${metadata.paramName}" invalid, integer expected`);
+            }
+            return int;
+        }
+        default: return value;
+    }
 }
 
 /**
@@ -53,6 +92,7 @@ export const QueryParam : QueryParamDecorator = Annotator.makeParamDecorator(
     (paramName: string, options: ParamOptions = {}) => ({
         required: false,
         type: String,
+        parse,
         ...options,
         paramName,
         resolve: (options : QueryParam, req : Request) => req.query[options.paramName]
@@ -129,6 +169,7 @@ export const Param : ParamDecorator = Annotator.makeParamDecorator(
     (paramName: string, options: ParamOptions = {}) => ({
         required: true,
         type: String,
+        parse,
         ...options,
         paramName,
         resolve: (options : Param, req : Request) => req.params[options.paramName]
@@ -202,7 +243,7 @@ export const BodyParam : BodyParamDecorator = Annotator.makeParamDecorator(
     'BodyParam',
     (paramName: string, options: ParamOptions = {}) => ({
         required: false,
-        type: String,
+        parse,
         ...options,
         paramName,
         resolve: (options : BodyParam, req : Request) => req.body[options.paramName]
@@ -283,7 +324,7 @@ export const HeaderParam : HeaderParamDecorator = Annotator.makeParamDecorator(
     'HeaderParam',
     (headerName: string, options: ParamOptions = {}) => ({
         required: false,
-        type: String,
+        parse,
         ...options,
         headerName,
         resolve: (options : HeaderParam, req : Request) => req.headers[options.headerName.toLowerCase()]
@@ -357,7 +398,7 @@ export const SessionParam : SessionParamDecorator = Annotator.makeParamDecorator
     'SessionParam',
     (paramName: string, options: ParamOptions = {}) => ({
         required: false,
-        type: String,
+        parse,
         ...options,
         paramName,
         resolve: (options : SessionParam, req : Request) => (req as any).session![options.paramName]
@@ -426,7 +467,7 @@ export interface SessionIdDecorator {
 export interface SessionId extends AbstractParam {}
 
 export const SessionId : SessionIdDecorator = Annotator.makeParamDecorator(
-    'Session',
+    'SessionId',
     () => ({
         resolve: (_options : Session, req : Request) => (req as any).sessionID
     }),
@@ -473,7 +514,7 @@ export interface ResDecorator {
      *
      * class ExampleController {
      *   @Get('/')
-     *   index(@Res() req : Express.Response) {
+     *   index(@Res() res : Express.Response) {
      *   }
      * }
      * ```
@@ -490,4 +531,35 @@ export interface Res extends AbstractParam {}
 
 export const Res : ResDecorator = Annotator.makeParamDecorator('Res', () => ({
     resolve: (_options : Res, req : Request) => (req as any).res
+}), AbstractParam);
+
+/**
+ * Type of the Err decorator
+ */
+export interface ErrDecorator {
+    /**
+     * Injects the optional error from a middleware into controller handler
+     * @example
+     * ```
+     *
+     * class ExampleController {
+     *   @Post('/login')
+     *   @Use((_req, _res, next) => next(Math.random() < .5 ? new Error('err') : null))
+     *   index(@Err() err : any, @Res() res : Express.Response) {
+     *   }
+     * }
+     * ```
+     */
+    (): any;
+    new (): Err;
+}
+
+/**
+ * Type of the Res metadata
+ * @see {@link ResDecorator}
+ */
+export interface Err extends AbstractParam {}
+
+export const Err : ErrDecorator = Annotator.makeParamDecorator('Err', () => ({
+    resolve: (_options : Err, req : Request) => (req as any).err
 }), AbstractParam);

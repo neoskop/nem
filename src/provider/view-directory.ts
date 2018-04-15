@@ -14,7 +14,7 @@ import { Provider } from '@neoskop/injector';
  *
  *
  * @NemModule({
- *   rootProviders: [
+ *   providers: [
  *     viewDirectory('./views/example')
  *   ]
  * })

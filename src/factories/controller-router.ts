@@ -1,5 +1,5 @@
 import { Annotator, Type } from '../utils/annotations';
-import { NextFunction, Request, RequestHandler, Response, Router } from 'express';
+import { ErrorRequestHandler, NextFunction, Request, RequestHandler, Response, Router } from 'express';
 import { AbstractController, AbstractMethod, ApplicableAnnotation } from '../metadata/controller';
 import { Injectable, Injector, InjectorFactory, Provider } from '@neoskop/injector';
 import { AbstractParam } from '../metadata/params';
@@ -155,7 +155,7 @@ export class ControllerRouterFactory {
         return result;
     }
     
-    protected createHandler(ctx : IControllerContext, method : string, params : AbstractParam[], annotations : MethodAnnotationMap) : RequestHandler[] {
+    protected createHandler(ctx : IControllerContext, method : string, params : AbstractParam[], annotations : MethodAnnotationMap) : (ErrorRequestHandler|RequestHandler)[] {
         const handler = async (request : Request, response : Response, next : NextFunction) => {
             const zone = this.zone.fork({
                 name      : '',
@@ -202,6 +202,11 @@ export class ControllerRouterFactory {
             
         };
         
+        const errorHandler = (error : any, request : Request, response : Response, next : NextFunction) => {
+            (request as any).err = error;
+            handler(request, response, next);
+        };
+        
         function toHandler(middleware : RequestHandler|IMiddleware) {
             if(typeof middleware === 'function') {
                 return middleware;
@@ -222,8 +227,6 @@ export class ControllerRouterFactory {
             }
         }
         
-        
-        
         const globalBeforeHandler = ctx.injector.get(MIDDLEWARE_BEFORE, []).map(toHandler);
         const globalAfterHandler = ctx.injector.get(MIDDLEWARE_AFTER, []).map(toHandler);
         
@@ -232,7 +235,14 @@ export class ControllerRouterFactory {
         const beforeHandler = useAnnotations.filter(a => a.use === 'before').map(toHandler2);
         const afterHandler = useAnnotations.filter(a => a.use === 'after').map(toHandler2);
         
-        return [ ...globalBeforeHandler, ...beforeHandler, handler, ...afterHandler, ...globalAfterHandler ];
+        return [
+            ...globalBeforeHandler,
+            ...beforeHandler,
+            ...(this.paramFactory.hasErrorParam(params) ? [ errorHandler ] : []),
+            handler,
+            ...afterHandler,
+            ...globalAfterHandler
+        ];
     }
 }
 

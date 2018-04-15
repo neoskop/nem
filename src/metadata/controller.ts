@@ -416,7 +416,7 @@ export interface View extends ApplicableAnnotation {
 export const View : ViewDecorator = Annotator.makePropDecorator('View', (view : string) => ({
     view,
     end({ view } : View, { request, response, result } : { request : Request, response : Response, result : any }) {
-        const template = request.injector!.get(VIEW_PREFIX) ? path.join(request.injector!.get(VIEW_PREFIX)!, view) : view;
+        const template = request.injector!.get(VIEW_PREFIX, false) ? path.join(request.injector!.get(VIEW_PREFIX)!, view) : view;
         response.render(template, result);
     }
 }), ApplicableAnnotation);
@@ -579,6 +579,38 @@ export const Text : TextDecorator = Annotator.makePropDecorator('Text', () => ({
         }
         response.end(result);
     }
+}), ApplicableAnnotation);
+
+/**
+ * Type of Noop decorator
+ */
+export interface NoopDecorator {
+    /**
+     * Defines controller handler to do nothing
+     * @example
+     * ```
+     * @Controller()
+     * export class TestController {
+     *   @Post('/login')
+     *   @Use(passport.authenticate({ successRedirect: '/', failureRedirect: '/login' })
+     *   @Noop()
+     *   doLogin() {}
+     * }
+     * ```
+     */
+    () : any;
+    new () : Noop;
+}
+
+/**
+ * Type of Noop metadata
+ */
+export interface Noop extends ApplicableAnnotation {
+
+}
+
+export const Noop : NoopDecorator = Annotator.makePropDecorator('Noop', () => ({
+    end() {}
 }), ApplicableAnnotation);
 
 /**
