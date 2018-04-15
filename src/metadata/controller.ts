@@ -416,7 +416,7 @@ export interface View extends ApplicableAnnotation {
 export const View : ViewDecorator = Annotator.makePropDecorator('View', (view : string) => ({
     view,
     end({ view } : View, { request, response, result } : { request : Request, response : Response, result : any }) {
-        const template = request.injector!.get(VIEW_PREFIX) ? path.join(request.injector!.get(VIEW_PREFIX)!, view) : view;
+        const template = request.injector!.get(VIEW_PREFIX, false) ? path.join(request.injector!.get(VIEW_PREFIX)!, view) : view;
         response.render(template, result);
     }
 }), ApplicableAnnotation);
