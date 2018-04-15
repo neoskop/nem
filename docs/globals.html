@@ -114,6 +114,8 @@
 								<li class="tsd-kind-interface tsd-is-external"><a href="interfaces/controller.html" class="tsd-kind-icon">Controller</a></li>
 								<li class="tsd-kind-interface tsd-is-external"><a href="interfaces/controllerdecorator.html" class="tsd-kind-icon">Controller<wbr>Decorator</a></li>
 								<li class="tsd-kind-interface tsd-is-external"><a href="interfaces/delete.html" class="tsd-kind-icon">Delete</a></li>
+								<li class="tsd-kind-interface tsd-is-external"><a href="interfaces/err.html" class="tsd-kind-icon">Err</a></li>
+								<li class="tsd-kind-interface tsd-is-external"><a href="interfaces/errdecorator.html" class="tsd-kind-icon">Err<wbr>Decorator</a></li>
 								<li class="tsd-kind-interface tsd-is-external"><a href="interfaces/get.html" class="tsd-kind-icon">Get</a></li>
 								<li class="tsd-kind-interface tsd-is-external"><a href="interfaces/head.html" class="tsd-kind-icon">Head</a></li>
 								<li class="tsd-kind-interface tsd-is-external"><a href="interfaces/header.html" class="tsd-kind-icon">Header</a></li>
@@ -142,6 +144,8 @@
 								<li class="tsd-kind-interface tsd-is-external"><a href="interfaces/nemmodule.html" class="tsd-kind-icon">Nem<wbr>Module</a></li>
 								<li class="tsd-kind-interface tsd-is-external"><a href="interfaces/nemmoduledecorator.html" class="tsd-kind-icon">Nem<wbr>Module<wbr>Decorator</a></li>
 								<li class="tsd-kind-interface tsd-is-external"><a href="interfaces/nemmodulewithproviders.html" class="tsd-kind-icon">Nem<wbr>Module<wbr>With<wbr>Providers</a></li>
+								<li class="tsd-kind-interface tsd-is-external"><a href="interfaces/noop.html" class="tsd-kind-icon">Noop</a></li>
+								<li class="tsd-kind-interface tsd-is-external"><a href="interfaces/noopdecorator.html" class="tsd-kind-icon">Noop<wbr>Decorator</a></li>
 								<li class="tsd-kind-interface tsd-is-external"><a href="interfaces/onnull.html" class="tsd-kind-icon">On<wbr>Null</a></li>
 								<li class="tsd-kind-interface tsd-is-external"><a href="interfaces/onnulldecorator.html" class="tsd-kind-icon">On<wbr>Null<wbr>Decorator</a></li>
 								<li class="tsd-kind-interface tsd-is-external"><a href="interfaces/onundefined.html" class="tsd-kind-icon">On<wbr>Undefined</a></li>
@@ -192,7 +196,6 @@
 							<h3>Variables</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-variable tsd-is-external"><a href="globals.html#app" class="tsd-kind-icon">APP</a></li>
-								<li class="tsd-kind-variable tsd-is-external"><a href="globals.html#base_paths" class="tsd-kind-icon">BASE_<wbr>PATHS</a></li>
 								<li class="tsd-kind-variable tsd-is-external"><a href="globals.html#bootstrap_listener_after" class="tsd-kind-icon">BOOTSTRAP_<wbr>LISTENER_<wbr>AFTER</a></li>
 								<li class="tsd-kind-variable tsd-is-external"><a href="globals.html#bootstrap_listener_before" class="tsd-kind-icon">BOOTSTRAP_<wbr>LISTENER_<wbr>BEFORE</a></li>
 								<li class="tsd-kind-variable tsd-is-external"><a href="globals.html#error_handler" class="tsd-kind-icon">ERROR_<wbr>HANDLER</a></li>
@@ -210,6 +213,7 @@
 								<li class="tsd-kind-function tsd-is-external tsd-is-not-exported"><a href="globals.html#methodfactory" class="tsd-kind-icon">Method<wbr>Factory</a></li>
 								<li class="tsd-kind-function tsd-is-external"><a href="globals.html#middleware" class="tsd-kind-icon">middleware</a></li>
 								<li class="tsd-kind-function tsd-is-external"><a href="globals.html#nem" class="tsd-kind-icon">nem</a></li>
+								<li class="tsd-kind-function tsd-is-external"><a href="globals.html#parse" class="tsd-kind-icon">parse</a></li>
 								<li class="tsd-kind-function tsd-is-external"><a href="globals.html#viewdirectory" class="tsd-kind-icon">view<wbr>Directory</a></li>
 								<li class="tsd-kind-function tsd-is-external"><a href="globals.html#viewprefix" class="tsd-kind-icon">view<wbr>Prefix</a></li>
 							</ul>
@@ -225,7 +229,7 @@
 					<div class="tsd-signature tsd-kind-icon">APP<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">InjectionToken</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Application</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new InjectionToken&lt;Application&gt;(&#x27;Express Application&#x27;)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/neoskop/nem/blob/7ee73ba/src/tokens.ts#L55">tokens.ts:55</a></li>
+							<li>Defined in <a href="https://github.com/neoskop/nem/blob/7924c45/src/tokens.ts#L50">tokens.ts:50</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -235,27 +239,12 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-variable tsd-is-external">
-					<a name="base_paths" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> BASE_<wbr>PATHS</h3>
-					<div class="tsd-signature tsd-kind-icon">BASE_<wbr>PATHS<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">InjectionToken</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">RegExp</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new InjectionToken&lt;(string|RegExp)[]&gt;(&#x27;BasePaths&#x27;)</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/neoskop/nem/blob/7ee73ba/src/tokens.ts#L10">tokens.ts:10</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Provides an array of path parts to current controller/module</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-variable tsd-is-external">
 					<a name="bootstrap_listener_after" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> BOOTSTRAP_<wbr>LISTENER_<wbr>AFTER</h3>
 					<div class="tsd-signature tsd-kind-icon">BOOTSTRAP_<wbr>LISTENER_<wbr>AFTER<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">InjectionToken</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new InjectionToken&lt;Function[]&gt;(&#x27;Bootstrap Listener After&#x27;)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/neoskop/nem/blob/7ee73ba/src/tokens.ts#L70">tokens.ts:70</a></li>
+							<li>Defined in <a href="https://github.com/neoskop/nem/blob/7924c45/src/tokens.ts#L65">tokens.ts:65</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -270,7 +259,7 @@
 					<div class="tsd-signature tsd-kind-icon">BOOTSTRAP_<wbr>LISTENER_<wbr>BEFORE<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">InjectionToken</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new InjectionToken&lt;Function[]&gt;(&#x27;Bootstrap Listener Before&#x27;)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/neoskop/nem/blob/7ee73ba/src/tokens.ts#L65">tokens.ts:65</a></li>
+							<li>Defined in <a href="https://github.com/neoskop/nem/blob/7924c45/src/tokens.ts#L60">tokens.ts:60</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -285,7 +274,7 @@
 					<div class="tsd-signature tsd-kind-icon">ERROR_<wbr>HANDLER<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">InjectionToken</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ErrorRequestHandler</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new InjectionToken&lt;ErrorRequestHandler&gt;(&#x27;ErrorHandler&#x27;)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/neoskop/nem/blob/7ee73ba/src/tokens.ts#L16">tokens.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/neoskop/nem/blob/7924c45/src/tokens.ts#L11">tokens.ts:11</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -305,7 +294,7 @@
 					<div class="tsd-signature tsd-kind-icon">MIDDLEWARE_<wbr>AFTER<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">InjectionToken</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">(</span><a href="interfaces/imiddleware.html" class="tsd-signature-type">IMiddleware</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">RequestHandler</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new InjectionToken&lt;(IMiddleware|RequestHandler)[]&gt;(&#x27;Middleware After&#x27;)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/neoskop/nem/blob/7ee73ba/src/tokens.ts#L50">tokens.ts:50</a></li>
+							<li>Defined in <a href="https://github.com/neoskop/nem/blob/7924c45/src/tokens.ts#L45">tokens.ts:45</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -320,7 +309,7 @@
 					<div class="tsd-signature tsd-kind-icon">MIDDLEWARE_<wbr>BEFORE<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">InjectionToken</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">(</span><a href="interfaces/imiddleware.html" class="tsd-signature-type">IMiddleware</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">RequestHandler</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new InjectionToken&lt;(IMiddleware|RequestHandler)[]&gt;(&#x27;Middleware Before&#x27;)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/neoskop/nem/blob/7ee73ba/src/tokens.ts#L45">tokens.ts:45</a></li>
+							<li>Defined in <a href="https://github.com/neoskop/nem/blob/7924c45/src/tokens.ts#L40">tokens.ts:40</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -335,7 +324,7 @@
 					<div class="tsd-signature tsd-kind-icon">SERVER<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">InjectionToken</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Server</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new InjectionToken&lt;Server&gt;(&#x27;Http Server&#x27;)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/neoskop/nem/blob/7ee73ba/src/tokens.ts#L60">tokens.ts:60</a></li>
+							<li>Defined in <a href="https://github.com/neoskop/nem/blob/7924c45/src/tokens.ts#L55">tokens.ts:55</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -350,7 +339,7 @@
 					<div class="tsd-signature tsd-kind-icon">VIEWS<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">InjectionToken</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new InjectionToken&lt;string[]&gt;(&#x27;Views&#x27;)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/neoskop/nem/blob/7ee73ba/src/tokens.ts#L21">tokens.ts:21</a></li>
+							<li>Defined in <a href="https://github.com/neoskop/nem/blob/7924c45/src/tokens.ts#L16">tokens.ts:16</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -365,7 +354,7 @@
 					<div class="tsd-signature tsd-kind-icon">VIEW_<wbr>ENGINE<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">InjectionToken</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new InjectionToken&lt;string&gt;(&#x27;View Engine&#x27;)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/neoskop/nem/blob/7ee73ba/src/tokens.ts#L26">tokens.ts:26</a></li>
+							<li>Defined in <a href="https://github.com/neoskop/nem/blob/7924c45/src/tokens.ts#L21">tokens.ts:21</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -380,7 +369,7 @@
 					<div class="tsd-signature tsd-kind-icon">VIEW_<wbr>PREFIX<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">InjectionToken</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new InjectionToken&lt;string|undefined&gt;(&#x27;View Prefix&#x27;)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/neoskop/nem/blob/7ee73ba/src/tokens.ts#L40">tokens.ts:40</a></li>
+							<li>Defined in <a href="https://github.com/neoskop/nem/blob/7924c45/src/tokens.ts#L35">tokens.ts:35</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -402,7 +391,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/neoskop/nem/blob/7ee73ba/src/metadata/controller.ts#L92">metadata/controller.ts:92</a></li>
+									<li>Defined in <a href="https://github.com/neoskop/nem/blob/7924c45/src/metadata/controller.ts#L92">metadata/controller.ts:92</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -425,7 +414,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/neoskop/nem/blob/7ee73ba/src/provider/middleware.ts#L21">provider/middleware.ts:21</a></li>
+									<li>Defined in <a href="https://github.com/neoskop/nem/blob/7924c45/src/provider/middleware.ts#L21">provider/middleware.ts:21</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -467,7 +456,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/neoskop/nem/blob/7ee73ba/src/bootstrap.ts#L36">bootstrap.ts:36</a></li>
+									<li>Defined in <a href="https://github.com/neoskop/nem/blob/7924c45/src/bootstrap.ts#L37">bootstrap.ts:37</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -486,6 +475,32 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-is-external">
+					<a name="parse" class="tsd-anchor"></a>
+					<h3>parse</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-is-external">
+						<li class="tsd-signature tsd-kind-icon">parse<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, metadata<span class="tsd-signature-symbol">: </span><a href="classes/abstractparam.html" class="tsd-signature-type">AbstractParam</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/neoskop/nem/blob/7924c45/src/metadata/params.ts#L27">metadata/params.ts:27</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>value: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5>metadata: <a href="classes/abstractparam.html" class="tsd-signature-type">AbstractParam</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-is-external">
 					<a name="viewdirectory" class="tsd-anchor"></a>
 					<h3>view<wbr>Directory</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-is-external">
@@ -495,7 +510,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/neoskop/nem/blob/7ee73ba/src/provider/view-directory.ts#L24">provider/view-directory.ts:24</a></li>
+									<li>Defined in <a href="https://github.com/neoskop/nem/blob/7924c45/src/provider/view-directory.ts#L24">provider/view-directory.ts:24</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -513,7 +528,7 @@
 
 
 <span class="hljs-variable">@NemModule</span>({
-  <span class="hljs-attribute">rootProviders</span>: [
+  <span class="hljs-attribute">providers</span>: [
     viewDirectory(<span class="hljs-string">'./views/example'</span>)
   ]
 })
@@ -541,7 +556,7 @@ export class ExampleModule {}
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/neoskop/nem/blob/7ee73ba/src/provider/view-prefix.ts#L30">provider/view-prefix.ts:30</a></li>
+									<li>Defined in <a href="https://github.com/neoskop/nem/blob/7924c45/src/provider/view-prefix.ts#L30">provider/view-prefix.ts:30</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -701,6 +716,12 @@ export class ExampleController {
 						<a href="interfaces/delete.html" class="tsd-kind-icon">Delete</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="interfaces/err.html" class="tsd-kind-icon">Err</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="interfaces/errdecorator.html" class="tsd-kind-icon">Err<wbr>Decorator</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
 						<a href="interfaces/get.html" class="tsd-kind-icon">Get</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-is-external">
@@ -783,6 +804,12 @@ export class ExampleController {
 					</li>
 					<li class=" tsd-kind-interface tsd-is-external">
 						<a href="interfaces/nemmodulewithproviders.html" class="tsd-kind-icon">Nem<wbr>Module<wbr>With<wbr>Providers</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="interfaces/noop.html" class="tsd-kind-icon">Noop</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="interfaces/noopdecorator.html" class="tsd-kind-icon">Noop<wbr>Decorator</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-is-external">
 						<a href="interfaces/onnull.html" class="tsd-kind-icon">On<wbr>Null</a>
@@ -920,9 +947,6 @@ export class ExampleController {
 						<a href="globals.html#app" class="tsd-kind-icon">APP</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-external">
-						<a href="globals.html#base_paths" class="tsd-kind-icon">BASE_<wbr>PATHS</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-external">
 						<a href="globals.html#bootstrap_listener_after" class="tsd-kind-icon">BOOTSTRAP_<wbr>LISTENER_<wbr>AFTER</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-external">
@@ -957,6 +981,9 @@ export class ExampleController {
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#nem" class="tsd-kind-icon">nem</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#parse" class="tsd-kind-icon">parse</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#viewdirectory" class="tsd-kind-icon">view<wbr>Directory</a>

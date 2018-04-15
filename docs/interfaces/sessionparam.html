@@ -101,11 +101,12 @@
 						<section class="tsd-index-section tsd-is-external">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="sessionparam.html#paramname" class="tsd-kind-icon">param<wbr>Name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-external"><a href="sessionparam.html#paramname" class="tsd-kind-icon">param<wbr>Name</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited tsd-is-external"><a href="sessionparam.html#parse" class="tsd-kind-icon">parse</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited tsd-is-external"><a href="sessionparam.html#required" class="tsd-kind-icon">required</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="sessionparam.html#resolve" class="tsd-kind-icon">resolve</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="sessionparam.html#type" class="tsd-kind-icon">type</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited tsd-is-external"><a href="sessionparam.html#type" class="tsd-kind-icon">type</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited tsd-is-external"><a href="sessionparam.html#validate" class="tsd-kind-icon">validate</a></li>
 							</ul>
 						</section>
 					</div>
@@ -113,13 +114,14 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group tsd-is-external">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-external">
 					<a name="paramname" class="tsd-anchor"></a>
 					<h3>param<wbr>Name</h3>
 					<div class="tsd-signature tsd-kind-icon">param<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
+						<p>Overrides <a href="../classes/abstractparam.html">AbstractParam</a>.<a href="../classes/abstractparam.html#paramname">paramName</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/neoskop/nem/blob/7ee73ba/src/metadata/params.ts#L353">metadata/params.ts:353</a></li>
+							<li>Defined in <a href="https://github.com/neoskop/nem/blob/7924c45/src/metadata/params.ts#L394">metadata/params.ts:394</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -131,7 +133,7 @@
 						<p>Inherited from <a href="../classes/abstractparam.html">AbstractParam</a>.<a href="../classes/abstractparam.html#parse">parse</a></p>
 						<p>Overrides <a href="paramoptions.html">ParamOptions</a>.<a href="paramoptions.html#parse">parse</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/neoskop/nem/blob/7ee73ba/src/metadata/params.ts#L8">metadata/params.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/neoskop/nem/blob/7924c45/src/metadata/params.ts#L8">metadata/params.ts:8</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -143,7 +145,7 @@
 						<p>Inherited from <a href="../classes/abstractparam.html">AbstractParam</a>.<a href="../classes/abstractparam.html#required">required</a></p>
 						<p>Overrides <a href="paramoptions.html">ParamOptions</a>.<a href="paramoptions.html#required">required</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/neoskop/nem/blob/7ee73ba/src/metadata/params.ts#L9">metadata/params.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/neoskop/nem/blob/7924c45/src/metadata/params.ts#L10">metadata/params.ts:10</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -154,7 +156,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="../classes/abstractparam.html">AbstractParam</a>.<a href="../classes/abstractparam.html#resolve">resolve</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/neoskop/nem/blob/7ee73ba/src/metadata/params.ts#L7">metadata/params.ts:7</a></li>
+							<li>Defined in <a href="https://github.com/neoskop/nem/blob/7924c45/src/metadata/params.ts#L7">metadata/params.ts:7</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -182,14 +184,27 @@
 						</ul>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited tsd-is-external">
 					<a name="type" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> type</h3>
 					<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="paramoptions.html">ParamOptions</a>.<a href="paramoptions.html#type">type</a></p>
+						<p>Inherited from <a href="../classes/abstractparam.html">AbstractParam</a>.<a href="../classes/abstractparam.html#type">type</a></p>
+						<p>Overrides <a href="paramoptions.html">ParamOptions</a>.<a href="paramoptions.html#type">type</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/neoskop/nem/blob/7ee73ba/src/metadata/params.ts#L13">metadata/params.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/neoskop/nem/blob/7924c45/src/metadata/params.ts#L12">metadata/params.ts:12</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited tsd-is-external">
+					<a name="validate" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> validate</h3>
+					<div class="tsd-signature tsd-kind-icon">validate<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">function</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="../classes/abstractparam.html">AbstractParam</a>.<a href="../classes/abstractparam.html#validate">validate</a></p>
+						<p>Overrides <a href="paramoptions.html">ParamOptions</a>.<a href="paramoptions.html#validate">validate</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/neoskop/nem/blob/7924c45/src/metadata/params.ts#L9">metadata/params.ts:9</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -210,7 +225,7 @@
 					<li class="current tsd-kind-interface tsd-is-external">
 						<a href="sessionparam.html" class="tsd-kind-icon">Session<wbr>Param</a>
 						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-external">
 								<a href="sessionparam.html#paramname" class="tsd-kind-icon">param<wbr>Name</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited tsd-is-external">
@@ -222,8 +237,11 @@
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
 								<a href="sessionparam.html#resolve" class="tsd-kind-icon">resolve</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited tsd-is-external">
 								<a href="sessionparam.html#type" class="tsd-kind-icon">type</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited tsd-is-external">
+								<a href="sessionparam.html#validate" class="tsd-kind-icon">validate</a>
 							</li>
 						</ul>
 					</li>
