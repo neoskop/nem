@@ -514,7 +514,7 @@ export interface ResDecorator {
      *
      * class ExampleController {
      *   @Get('/')
-     *   index(@Res() req : Express.Response) {
+     *   index(@Res() res : Express.Response) {
      *   }
      * }
      * ```
@@ -531,4 +531,35 @@ export interface Res extends AbstractParam {}
 
 export const Res : ResDecorator = Annotator.makeParamDecorator('Res', () => ({
     resolve: (_options : Res, req : Request) => (req as any).res
+}), AbstractParam);
+
+/**
+ * Type of the Err decorator
+ */
+export interface ErrDecorator {
+    /**
+     * Injects the optional error from a middleware into controller handler
+     * @example
+     * ```
+     *
+     * class ExampleController {
+     *   @Post('/login')
+     *   @Use((_req, _res, next) => next(Math.random() < .5 ? new Error('err') : null))
+     *   index(@Err() err : any, @Res() res : Express.Response) {
+     *   }
+     * }
+     * ```
+     */
+    (): any;
+    new (): Err;
+}
+
+/**
+ * Type of the Res metadata
+ * @see {@link ResDecorator}
+ */
+export interface Err extends AbstractParam {}
+
+export const Err : ErrDecorator = Annotator.makeParamDecorator('Err', () => ({
+    resolve: (_options : Err, req : Request) => (req as any).err
 }), AbstractParam);

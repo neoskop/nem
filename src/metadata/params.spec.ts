@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import {
     AbstractParam,
     Body,
-    BodyParam,
+    BodyParam, Err,
     HeaderParam,
     Headers,
     Param,
@@ -55,6 +55,8 @@ class TestClass {
     request(@Req() _a : any) {}
     
     response(@Res() _a : any) {}
+    
+    error(@Err() _a : any) {}
 }
 
 describe('metadata/params', () => {
@@ -68,7 +70,8 @@ describe('metadata/params', () => {
             headers  : { 'accepts': 'text/plain' },
             session  : { 'sess': 'sess-value' },
             sessionID: '5355ID',
-            res: Symbol('Response')
+            res: Symbol('Response'),
+            err: Symbol('Error')
         } as any
     });
     
@@ -469,6 +472,29 @@ describe('metadata/params', () => {
             expect(annotation.resolve.length).to.be.equal(2);
             
             expect(annotation.resolve(annotation, REQ)).to.be.equal((REQ as any).res);
+        });
+    });
+    
+    describe('Err', () => {
+        
+        it('should store metadata', () => {
+            const annotations = Annotator.getParamAnnotations(TestClass, 'error');
+            
+            expect(annotations).to.be.an('array').with.length(1);
+            expect(annotations[ 0 ]).to.be.an('array').with.length(1);
+            
+            expect(annotations[ 0 ][ 0 ]).to.be.instanceOf(Err).and.instanceOf(AbstractParam);
+            
+            expect(annotations[ 0 ][ 0 ]).to.have.keys('resolve');
+        });
+        
+        it('should resolve value from request', () => {
+            const [ [ annotation ] ] = Annotator.getParamAnnotations(TestClass, 'error');
+            
+            expect(annotation.resolve).to.be.a('function');
+            expect(annotation.resolve.length).to.be.equal(2);
+            
+            expect(annotation.resolve(annotation, REQ)).to.be.equal((REQ as any).err);
         });
     });
 });

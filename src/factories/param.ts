@@ -1,10 +1,15 @@
-import { AbstractParam } from '../metadata/params';
+import { AbstractParam, Err } from '../metadata/params';
 import { Request } from 'express';
 import { Injectable } from '@neoskop/injector';
 import { BadRequestError } from '../errors/http';
 
 @Injectable()
 export class ParamFactory {
+    
+    hasErrorParam(params : AbstractParam[]) : boolean {
+        return params.some(p => p instanceof Err);
+    }
+    
     async getParameterFromMetadataAndRequest(metadata : AbstractParam, request : Request) : Promise<any> {
         let value = await metadata.resolve(metadata, request);
         
