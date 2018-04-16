@@ -167,8 +167,6 @@ export class ControllerRouterFactory {
             
             zone.run(async () => {
                 try {
-                    request.injector = ctx.injector;
-                    
                     const appAnnotations = annotations.get(ApplicableAnnotation) || [];
                     
                     await applyApplicableAnnotations(appAnnotations, 'before', { request, response });
@@ -236,6 +234,10 @@ export class ControllerRouterFactory {
         const afterHandler = useAnnotations.filter(a => a.use === 'after').map(toHandler2);
         
         return [
+            (req : Request, _res : Response, next : NextFunction) => {
+                req.injector = ctx.injector;
+                next()
+            },
             ...globalBeforeHandler,
             ...beforeHandler,
             ...(this.paramFactory.hasErrorParam(params) ? [ errorHandler ] : []),
