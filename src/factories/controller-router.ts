@@ -169,19 +169,20 @@ export class ControllerRouterFactory {
                 try {
                     const appAnnotations = annotations.get(ApplicableAnnotation) || [];
                     
-                    await applyApplicableAnnotations(appAnnotations, 'before', { request, response });
+                    await applyApplicableAnnotations(appAnnotations, 'before', { request, response, ctx });
                     
                     const args = await Promise.all(params.map(param => this.paramFactory.getParameterFromMetadataAndRequest(param, request)));
                     
                     const result = Result.ensure(await ctx.instance[ method ](...args));
                     
-                    await applyApplicableAnnotations(result.args, 'before', { request, response });
+                    await applyApplicableAnnotations(result.args, 'before', { request, response, ctx });
                     
                     appAnnotations.push(...result.args);
                     
                     await applyApplicableAnnotations(appAnnotations, 'after', {
                         request,
                         response,
+                        ctx,
                         result: result.result
                     });
                     await applyApplicableAnnotations([
@@ -191,7 +192,7 @@ export class ControllerRouterFactory {
                                 throw new Error('Missing end annotation')
                             }
                         })
-                    ], 'end', { request, response, result: result.result }, { stopAfterFirst: true });
+                    ], 'end', { request, response, ctx, result: result.result }, { stopAfterFirst: true });
                 } catch(e) {
                     console.log('catch', e);
                     next(e);
@@ -254,7 +255,7 @@ export class ControllerRouterFactory {
  */
 async function applyApplicableAnnotations(app : ApplicableAnnotation[],
                                           type : 'before' | 'after' | 'end',
-                                          args : { request : Request, response : Response, result? : any },
+                                          args : { request : Request, response : Response, ctx : IControllerContext, result? : any },
                                           { stopAfterFirst } : { stopAfterFirst? : boolean } = {}) {
     for(const a of app) {
         if(a[ type ]) {
