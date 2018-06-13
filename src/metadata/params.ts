@@ -3,28 +3,28 @@ import { Request } from 'express';
 import { Annotator } from '../utils/annotations';
 import { BadRequestError } from '../errors/http';
 
-export abstract class AbstractParam {
-    resolve!: (options: this, req : Request) => any;
-    parse?: (arg : any, options : this, req : Request) => any;
-    validate?: (arg : any, options : this, req : Request) => boolean;
+export abstract class AbstractParam<T = any> {
+    resolve!: (options: T, req : Request) => any;
+    parse?: (arg : any, options : T, req : Request) => any;
+    validate?: (arg : any, options : T, req : Request) => boolean;
     required?: boolean;
     paramName?: string;
     type?: any;
 }
 
-export interface ParamOptions {
+export interface ParamOptions<T = any> {
     type?: any;
-    parse?: (arg: any, options : this, req : Request) => any;
-    validate?: (arg : any, options : this, req : Request) => boolean;
+    parse?: (arg: any, options : T, req : Request) => any;
+    validate?: (arg : any, options : T, req : Request) => boolean;
     required?: boolean;
 }
 
-export interface ParamsOptions {
-    parse?: (arg: any, options : this, req : Request) => any;
-    validate?: (arg : any, options : this, req : Request) => boolean;
+export interface ParamsOptions<T = any> {
+    parse?: (arg: any, options : T, req : Request) => any;
+    validate?: (arg : any, options : T, req : Request) => boolean;
 }
 
-export function parse(value : any, metadata  : AbstractParam) {
+export function parse(value : any, metadata  : AbstractParam<any>) {
     if(null == value) {
         return value;
     }
@@ -75,15 +75,15 @@ export interface QueryParamDecorator {
      * }
      * ```
      */
-    (paramName: string, options?: ParamOptions): any;
-    new (paramName: string, options?: ParamOptions): QueryParam;
+    (paramName: string, options?: ParamOptions<QueryParam>): any;
+    new (paramName: string, options?: ParamOptions<QueryParam>): QueryParam;
 }
 
 /**
  * Type of QueryParam metadata
  * @see {@link QueryParamDecorator}
  */
-export interface QueryParam extends AbstractParam, ParamOptions {
+export interface QueryParam extends AbstractParam<QueryParam>, ParamOptions<QueryParam> {
     paramName: string;
 }
 
@@ -116,15 +116,15 @@ export interface QueryParamsDecorator {
      * }
      * ```
      */
-    (options?: ParamsOptions): any;
-    new (options?: ParamsOptions): QueryParams;
+    (options?: ParamsOptions<QueryParams>): any;
+    new (options?: ParamsOptions<QueryParams>): QueryParams;
 }
 
 /**
  * Type of QueryParams metadata
  * @see {@link QueryParamsDecorator}
  */
-export interface QueryParams extends AbstractParam, ParamsOptions {
+export interface QueryParams extends AbstractParam<QueryParams>, ParamsOptions<QueryParams> {
 }
 
 export const QueryParams : QueryParamsDecorator = Annotator.makeParamDecorator(
@@ -152,15 +152,15 @@ export interface ParamDecorator {
      * }
      * ```
      */
-    (paramName: string, options?: ParamOptions): any;
-    new (paramName: string, options?: ParamOptions): Param;
+    (paramName: string, options?: ParamOptions<Param>): any;
+    new (paramName: string, options?: ParamOptions<Param>): Param;
 }
 
 /**
  * Type of the Param metadata
  * @see {@link ParamDecorator}
  */
-export interface Param extends AbstractParam, ParamOptions {
+export interface Param extends AbstractParam<Param>, ParamOptions<Param> {
     paramName: string;
 }
 
@@ -190,15 +190,15 @@ export interface ParamsDecorator {
      * }
      * ```
      */
-    (options?: ParamsOptions): any;
-    new (options?: ParamsOptions): Params;
+    (options?: ParamsOptions<Params>): any;
+    new (options?: ParamsOptions<Params>): Params;
 }
 
 /**
  * Type of the Params metadata
  * @see {@link ParamsDecorator}
  */
-export interface Params extends AbstractParam, ParamsOptions {}
+export interface Params extends AbstractParam<Params>, ParamsOptions<Params> {}
 
 export const Params : ParamsDecorator = Annotator.makeParamDecorator(
     'Params',
@@ -227,15 +227,15 @@ export interface BodyParamDecorator {
      * }
      * ```
      */
-    (paramName: string, options?: ParamOptions): any;
-    new (paramName: string, options?: ParamOptions): BodyParam;
+    (paramName: string, options?: ParamOptions<BodyParam>): any;
+    new (paramName: string, options?: ParamOptions<BodyParam>): BodyParam;
 }
 
 /**
  * Type of the BodyParam metadata
  * @see {@link BodyParamDecorator}
  */
-export interface BodyParam extends AbstractParam, ParamOptions {
+export interface BodyParam extends AbstractParam<BodyParam>, ParamOptions<BodyParam> {
     paramName: string;
 }
 
@@ -251,7 +251,7 @@ export const BodyParam : BodyParamDecorator = Annotator.makeParamDecorator(
     AbstractParam);
 
 export interface BodyOptions {
-    parse?: (arg: { [key: string]: string }|Buffer|string|any, options : this, req : Request) => any;
+    parse?: (arg: { [key: string]: string }|Buffer|string|any, options : Body, req : Request) => any;
 }
 
 /**
@@ -280,7 +280,7 @@ export interface BodyDecorator {
  * Type of the Body metadata
  * @see {@link BodyDecorator}
  */
-export interface Body extends AbstractParam, BodyOptions {
+export interface Body extends AbstractParam<Body>, BodyOptions {
 }
 
 export const Body : BodyDecorator = Annotator.makeParamDecorator(
@@ -308,15 +308,15 @@ export interface HeaderParamDecorator {
      * }
      * ```
      */
-    (headerName: string, options?: ParamOptions): any;
-    new (headerName: string, options?: ParamOptions): HeaderParam;
+    (headerName: string, options?: ParamOptions<HeaderParam>): any;
+    new (headerName: string, options?: ParamOptions<HeaderParam>): HeaderParam;
 }
 
 /**
  * Type of the HeaderParam metadata
  * @see {@link HeaderParamDecorator}
  */
-export interface HeaderParam extends AbstractParam, ParamOptions {
+export interface HeaderParam extends AbstractParam<HeaderParam>, ParamOptions<HeaderParam> {
     headerName: string;
 }
 
@@ -348,15 +348,15 @@ export interface HeadersDecorator {
      * }
      * ```
      */
-    (options?: ParamOptions): any;
-    new (options?: ParamOptions): Headers;
+    (options?: ParamOptions<Headers>): any;
+    new (options?: ParamOptions<Headers>): Headers;
 }
 
 /**
  * Type of the Headers metadata
  * @see {@link HeadersDecorator}
  */
-export interface Headers extends AbstractParam, ParamsOptions {}
+export interface Headers extends AbstractParam<Headers>, ParamsOptions<Headers> {}
 
 export const Headers : HeadersDecorator = Annotator.makeParamDecorator(
     'Headers',
@@ -382,15 +382,15 @@ export interface SessionParamDecorator {
      * }
      * ```
      */
-    (paramName: string, options?: ParamOptions): any;
-    new (paramName: string, options?: ParamOptions): SessionParam;
+    (paramName: string, options?: ParamOptions<SessionParam>): any;
+    new (paramName: string, options?: ParamOptions<SessionParam>): SessionParam;
 }
 
 /**
  * Type of the SessionParam metadata
  * @see {@link SessionParamDecorator}
  */
-export interface SessionParam extends AbstractParam, ParamOptions {
+export interface SessionParam extends AbstractParam<SessionParam>, ParamOptions<SessionParam> {
     paramName: string;
 }
 
@@ -421,15 +421,15 @@ export interface SessionDecorator {
      * }
      * ```
      */
-    (options?: ParamOptions): any;
-    new (options?: ParamOptions): Session;
+    (options?: ParamOptions<Session>): any;
+    new (options?: ParamOptions<Session>): Session;
 }
 
 /**
  * Type of the Session metadata
  * @see {@link SessionDecorator}
  */
-export interface Session extends AbstractParam, ParamsOptions {
+export interface Session extends AbstractParam<Session>, ParamsOptions<Session> {
 }
 
 export const Session : SessionDecorator = Annotator.makeParamDecorator(
@@ -464,7 +464,7 @@ export interface SessionIdDecorator {
  * Type of the SessionId metadata
  * @see {@link SessionIdDecorator}
  */
-export interface SessionId extends AbstractParam {}
+export interface SessionId extends AbstractParam<SessionId> {}
 
 export const SessionId : SessionIdDecorator = Annotator.makeParamDecorator(
     'SessionId',
@@ -497,7 +497,7 @@ export interface ReqDecorator {
  * Type of the Req metadata
  * @see {@link ReqDecorator}
  */
-export interface Req extends AbstractParam {}
+export interface Req extends AbstractParam<Req> {}
 
 export const Req : ReqDecorator = Annotator.makeParamDecorator('Req', () => ({
     resolve: (_options : Req, req : Request) => req
@@ -527,7 +527,7 @@ export interface ResDecorator {
  * Type of the Res metadata
  * @see {@link ResDecorator}
  */
-export interface Res extends AbstractParam {}
+export interface Res extends AbstractParam<Res> {}
 
 export const Res : ResDecorator = Annotator.makeParamDecorator('Res', () => ({
     resolve: (_options : Res, req : Request) => (req as any).res
@@ -558,7 +558,7 @@ export interface ErrDecorator {
  * Type of the Res metadata
  * @see {@link ResDecorator}
  */
-export interface Err extends AbstractParam {}
+export interface Err extends AbstractParam<Err> {}
 
 export const Err : ErrDecorator = Annotator.makeParamDecorator('Err', () => ({
     resolve: (_options : Err, req : Request) => (req as any).err
