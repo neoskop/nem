@@ -19,7 +19,7 @@ class AsyncParam extends AbstractParam {
     parse?: (arg: any, options : this, req : Request) => any;
     paramName: string;
     
-    constructor(paramName : string, { parse } : { parse?: (arg: any, options : this, req : Request) => any } = {}) {
+    constructor(paramName : string, { parse } : { parse?: (arg: any, options : AsyncParam, req : Request) => any } = {}) {
         super();
         this.paramName = paramName;
         this.parse = parse;
