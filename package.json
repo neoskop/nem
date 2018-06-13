@@ -12,8 +12,7 @@
     "clean": "rimraf lib",
     "prebuild": "npm run test:coverage",
     "build": "npm run clean && tsc",
-    "docs": "typedoc",
-    "prepublishOnly": "npm run docs && npm run build"
+    "docs": "typedoc"
   },
   "repository": {
     "type": "git",
