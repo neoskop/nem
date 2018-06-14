@@ -167,11 +167,12 @@ export class ControllerRouterFactory {
             
             zone.run(async () => {
                 try {
+                    const paramFactory = this.paramFactory;
                     const appAnnotations = annotations.get(ApplicableAnnotation) || [];
                     
                     await applyApplicableAnnotations(appAnnotations, 'before', { request, response, ctx });
                     
-                    const args = await Promise.all(params.map(param => this.paramFactory.getParameterFromMetadataAndRequest(param, request)));
+                    const args = await Promise.all(params.map(param => paramFactory.getParameterFromMetadataAndRequest(param, request)));
                     
                     const result = Result.ensure(await ctx.instance[ method ](...args));
                     
