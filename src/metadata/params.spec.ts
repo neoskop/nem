@@ -16,7 +16,7 @@ import {
     SessionId,
     SessionParam
 } from './params';
-import { Annotator } from '../utils/annotations';
+import { Annotator } from '@neoskop/annotation-factory';
 import { Request } from 'express';
 
 class TestClass {

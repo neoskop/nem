@@ -1,5 +1,5 @@
 import { Provider } from '@neoskop/injector';
-import { Annotator } from '../utils/annotations';
+import { Annotator } from '@neoskop/annotation-factory';
 import { Request, Response } from 'express';
 import * as HttpStatus from 'http-status';
 import { DEFAULT_END_HANDLER, VIEW_PREFIX } from '../tokens';

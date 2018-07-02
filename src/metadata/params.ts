@@ -1,6 +1,6 @@
 import { Request } from 'express';
 
-import { Annotator } from '../utils/annotations';
+import { Annotator } from '@neoskop/annotation-factory';
 import { BadRequestError } from '../errors/http';
 
 export abstract class AbstractParam<T = any> {

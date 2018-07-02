@@ -1,5 +1,5 @@
 import { IRouter, Router } from 'express';
-import { Annotator, Type } from '../utils/annotations';
+import { Annotator, Type } from '@neoskop/annotation-factory';
 import { NemModule, NemModuleWithProviders } from '../metadata/module';
 import { Injectable, Injector, Provider } from '@neoskop/injector';
 import { ControllerRouterFactory } from './controller-router';

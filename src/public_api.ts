@@ -18,9 +18,11 @@ export * from './provider/middleware';
 export * from './provider/view-directory';
 export * from './provider/view-prefix';
 
-export * from './utils/annotations';
 export * from './utils/misc';
 
 // external
 import * as HttpStatus from 'http-status';
 export { HttpStatus }
+
+// TODO: remove in next Major version
+export * from '@neoskop/annotation-factory'

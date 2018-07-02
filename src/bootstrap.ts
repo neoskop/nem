@@ -1,6 +1,6 @@
 import 'source-map-support/register';
 import { InjectorFactory, Provider, Injector, Optional } from '@neoskop/injector';
-import { Type } from './utils/annotations';
+import { Type } from '@neoskop/annotation-factory';
 import * as express from 'express';
 import { ParamFactory } from './factories/param';
 import { IModuleContext, ModuleRouterFactory } from './factories/module-router';

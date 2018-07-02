@@ -1,6 +1,6 @@
 import 'mocha';
 import { expect, use } from 'chai';
-import { Annotator } from '../utils/annotations';
+import { Annotator } from '@neoskop/annotation-factory';
 import * as ctrl from './controller';
 import {
     AbstractController,

@@ -1,4 +1,4 @@
-import { Annotator, Type, TypeDecorator } from '../utils/annotations';
+import { Annotator, Type, TypeDecorator } from '@neoskop/annotation-factory';
 import { Provider } from '@neoskop/injector';
 import { Router } from 'express';
 

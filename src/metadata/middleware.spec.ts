@@ -1,6 +1,6 @@
 import 'mocha';
 import { expect } from 'chai';
-import { Annotator } from '../utils/annotations';
+import { Annotator } from '@neoskop/annotation-factory';
 import { Middleware, Use } from './middleware';
 
 @Middleware()

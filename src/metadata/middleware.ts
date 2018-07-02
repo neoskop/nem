@@ -1,4 +1,4 @@
-import { Annotator, Type } from '../utils/annotations';
+import { Annotator, Type } from '@neoskop/annotation-factory';
 import { RequestHandler } from 'express';
 
 /**

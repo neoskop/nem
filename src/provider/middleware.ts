@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express';
-import { Annotator, Type } from '../utils/annotations';
+import { Annotator, Type } from '@neoskop/annotation-factory';
 import { MIDDLEWARE_AFTER, MIDDLEWARE_BEFORE } from '../tokens';
 import { Middleware } from '../metadata/middleware';
 import { Provider } from '@neoskop/injector';

@@ -1,4 +1,4 @@
-import { Annotator, Type } from '../utils/annotations';
+import { Annotator, Type } from '@neoskop/annotation-factory';
 import { ErrorRequestHandler, NextFunction, Request, RequestHandler, Response, Router } from 'express';
 import { AbstractController, AbstractMethod, ApplicableAnnotation } from '../metadata/controller';
 import { Injectable, Injector, InjectorFactory, Provider } from '@neoskop/injector';
