@@ -46,14 +46,14 @@ export class ModuleRouterFactory {
         
         return [
             moduleType,
-            ...(metadata.providers || []),
             ...(metadata.modules || []).map(declaration => {
                 const nemModule = this.assertNemModuleWithProviders(Array.isArray(declaration) ? declaration[1] : declaration);
                 return [
                     this.getProviders(nemModule.nemModule),
                     ...(nemModule.providers || [])
                 ]
-            }).reduce((t, c) => t.concat(c), [])
+            }).reduce((t, c) => t.concat(c), []),
+            ...(metadata.providers || [])
         ]
     }
     
