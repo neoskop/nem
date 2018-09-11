@@ -7,13 +7,17 @@ import {
     AbstractMethod,
     All,
     ApplicableAnnotation,
-    ContentType, Controller,
+    ContentType,
+    Controller,
     Delete,
     Get,
     Head,
     Header,
-    Json, JsonController,
-    Locals, OnNull,
+    Json,
+    JsonController,
+    Locals,
+    Noop,
+    OnNull,
     OnUndefined,
     Options,
     Patch,
@@ -21,15 +25,17 @@ import {
     Put,
     Raw,
     Redirect,
+    SSE,
     StatusCode,
     Text,
-    Noop,
     View
 } from './controller';
 import * as sinon from 'sinon';
 import * as sinonChai from 'sinon-chai';
 import { NotFoundError } from '../errors/http';
 import { DEFAULT_END_HANDLER } from '../tokens';
+import { interval } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 
 use(sinonChai);
 
@@ -108,6 +114,14 @@ class TestClass {
     
     @Noop()
     noop() {}
+    
+    @SSE()
+    sse() {
+        return interval(10).pipe(
+            take(10),
+            map(n => ({ data: { n }}))
+        );
+    }
     
     @OnUndefined(404)
     onUndefinedWithStatus() {}
@@ -404,6 +418,63 @@ describe('metadata/controller', () => {
         });
     });
     
+    describe('SSE', () => {
+        it('should store metadata', () => {
+            const annotations = Annotator.getPropAnnotations(TestClass, 'sse');
+            
+            expect(annotations).to.be.an('array').with.length(1);
+            expect(annotations[ 0 ]).to.be.instanceOf(SSE).and.instanceOf(ApplicableAnnotation);
+        });
+        
+        it('must throw on invalid return value', () => {
+            const [ rawAnnotation ] = Annotator.getPropAnnotations(TestClass, 'sse');
+            expect(() => {
+                rawAnnotation.end(rawAnnotation, { result: {} });
+            }).to.throw('SSE method must return an observable.')
+        });
+        
+        it('should send server-sent events', async () => {
+            const setTimeout = sinon.spy();
+            const setNoDelay = sinon.spy();
+            const setKeepAlive = sinon.spy();
+            const setHeader = sinon.spy();
+            const end = sinon.spy();
+            let text = '';
+            const write = sinon.spy((str : string) => text += str);
+            const get = sinon.spy();
+            const addListener = sinon.spy();
+            const removeListener = sinon.spy();
+            const response = { setHeader, end, write, statusCode: 0 };
+            const request = { get, socket: { setTimeout, setNoDelay, setKeepAlive, addListener, removeListener } };
+            
+            const [ rawAnnotation ] = Annotator.getPropAnnotations(TestClass, 'sse');
+            
+            rawAnnotation.end(rawAnnotation, { response, request, result: new TestClass().sse() });
+            
+            expect(setTimeout).to.have.been.calledOnceWith(0);
+            expect(setNoDelay).to.have.been.calledOnceWith(true);
+            expect(setKeepAlive).to.have.been.calledOnceWith(true);
+            expect(response.statusCode).to.be.equal(200);
+            expect(setHeader).to.have.been.calledWith('Content-Type', 'text/event-stream');
+            expect(setHeader).to.have.been.calledWith('Cache-Control', 'no-cache');
+            expect(setHeader).to.have.been.calledWith('Connection', 'keep-alive');
+            expect(get).to.have.been.calledOnceWith('last-event-id');
+            expect(end).not.to.have.been.called;
+            expect(addListener).to.have.been.calledOnce;
+            expect(removeListener).not.to.have.been.called;
+            
+            await sleep(110);
+            
+            expect(write).to.have.been.callCount(30);
+            expect(end).to.have.been.calledOnce;
+            expect(removeListener).not.to.have.been.called;
+            
+            addListener.getCall(0).args[1]();
+            
+            expect(removeListener).to.have.been.calledOnceWith('close', addListener.getCall(0).args[1]);
+        });
+    });
+    
     describe('OnUndefined', () => {
         it('should store metadata', () => {
             const annotations = Annotator.getPropAnnotations(TestClass, 'onUndefinedWithStatus');
@@ -484,3 +555,9 @@ describe('metadata/controller', () => {
         })
     });
 });
+
+function sleep(ms : number) {
+    return new Promise(resolve => {
+        setTimeout(() => resolve(), ms);
+    })
+}

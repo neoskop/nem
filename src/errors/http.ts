@@ -14,6 +14,7 @@ export class HttpError implements Error {
         this.stack = new Error().stack!.replace(/^[^\r\n]+/, this.constructor.name)
                                        .replace(/\r?\n[^\r\n]+/, '');
         this.name = this.constructor.name;
+        Object.setPrototypeOf(this, new.target.prototype);
     }
 }
 
@@ -85,7 +86,7 @@ export class UnsupportedMediaTypeError extends HttpError {
  */
 export class InternalServerError extends HttpError {
     constructor(message?: string|null, error? : any) {
-        super(HttpStatus.INTERNAL_SERVER_ERROR, message, error)
+        super(HttpStatus.INTERNAL_SERVER_ERROR, message, error);
     }
 }
 

@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>SSE</title>
+    <style>
+        html, body {
+            font-family: Helvetica, Arial, sans-serif;
+            font-size: 12px;
+            background: lightgreen;
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .box {
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            margin: 0 auto;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 5px 5px 5px rgba(0, 0, 0, .4);
+        }
+
+        .box > section {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .box > section > * {
+            flex-grow: 1;
+        }
+
+        h1 {
+            border-bottom: 1px solid lightgray;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h1>SSE</h1>
+        <section>
+            <h2>Even</h2>
+            <h2>Odd</h2>
+        </section>
+        <section>
+            <div id="even"></div>
+            <div id="odd"></div>
+        </section>
+    </div>
+    <script>
+        const source = new EventSource('/events');
+
+        function onMessage(type, data) {
+            const pre = document.createElement('pre');
+            pre.innerText = JSON.stringify(data, 2);
+            while(window[type].children.length >= 5) {
+                window[type].removeChild(window[type].firstElementChild);
+            }
+            window[type].appendChild(pre);
+        }
+
+        source.addEventListener('even', message => {
+            onMessage('even', JSON.parse(message.data));
+        });
+
+        source.addEventListener('odd', message => {
+            onMessage('odd', JSON.parse(message.data));
+        });
+
+        source.addEventListener('server-error', message => {
+            console.log(message);
+        });
+
+        // source.addEventListener('error', () => {
+        //     source.close();
+        // });
+    </script>
+</body>
+</html>

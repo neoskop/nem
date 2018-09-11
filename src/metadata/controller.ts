@@ -3,8 +3,9 @@ import { Annotator } from '@neoskop/annotation-factory';
 import { Request, Response } from 'express';
 import * as HttpStatus from 'http-status';
 import { DEFAULT_END_HANDLER, VIEW_PREFIX } from '../tokens';
-import { HttpError } from '../errors/http';
+import { HttpError, InternalServerError } from '../errors/http';
 import * as path from 'path';
+import { Observable, isObservable } from 'rxjs';
 
 export abstract class AbstractController {
     providers?: Provider[]
@@ -611,6 +612,108 @@ export interface Noop extends ApplicableAnnotation {
 
 export const Noop : NoopDecorator = Annotator.makePropDecorator('Noop', () => ({
     end() {}
+}), ApplicableAnnotation);
+
+export type SSEWrite = (data : { event?: string, data?: string|object, retry?: number, id?: string|number }) => void;
+export type SSEErrorHandler = (sse : SSE, options : { write : SSEWrite, request : Request, response : Response, result : Observable<any> }) => void|Promise<void>;
+
+export interface ISSEOptions {
+    errorHandler? : string | SSEErrorHandler;
+    retryOnError?: number;
+}
+
+/**
+ * Type of SSE decorator
+ */
+export interface SSEDecorator {
+    /**
+     * Defines controller handler to return server-send events. Method *MUST* return an observable
+     * @example
+     * ```
+     * @Controller()
+     * export class TestController {
+     *   @Get('/events')
+     *   @SSE()
+     *   doLogin() {
+     *      return interval(1000).pipe(take(10))
+     *   }
+     * }
+     * ```
+     */
+    (options?: ISSEOptions) : any;
+    new (options?: ISSEOptions) : SSE
+}
+
+/**
+ * Type of SSE metadata
+ */
+export interface SSE extends ApplicableAnnotation {
+    errorHandler: string | SSEErrorHandler;
+    retryOnError?: number;
+}
+
+export const SSE : SSEDecorator = Annotator.makePropDecorator('SSE', (options? : ISSEOptions) => ({
+    errorHandler: 'server-error',
+    ...options,
+    end({ errorHandler, retryOnError } : SSE, { request, response, result } : { request: Request, response : Response, result : Observable<{ event?: string, data?: object, retry?: number, id?: string|number }> }) {
+        if(!isObservable(result)) {
+            throw new InternalServerError('SSE method must return an observable.');
+        }
+        
+        request.socket.setTimeout(0);
+        request.socket.setNoDelay(true);
+        request.socket.setKeepAlive(true);
+        response.statusCode = 200;
+        response.setHeader('Content-Type', 'text/event-stream');
+        response.setHeader('Cache-Control', 'no-cache');
+        response.setHeader('Connection', 'keep-alive');
+    
+        let connectionId = parseInt(request.get('last-event-id') || '0');
+        function write({ event, data, retry, id = ++connectionId} : { event?: string, data?: string|object, retry?: number, id?: string|number }) {
+            if(typeof id === 'number') {
+                connectionId = id;
+            }
+            response.write(`id: ${id}\n`);
+            if(event !== undefined) response.write(`event:${event}\n`);
+            if(retry !== undefined) response.write(`retry:${retry}\n`);
+            if(data !== undefined) {
+                if(typeof data === 'string') {
+                    for(const chunk of data.split(/\n/)) {
+                        response.write(`data:${chunk}\n`);
+                    }
+                } else {
+                    response.write(`data:${JSON.stringify(data)}\n`);
+                }
+            }
+            response.write('\n');
+        }
+        
+        const subscription = result.subscribe(obj => {
+            write(obj);
+        }, async error => {
+            if(typeof errorHandler === 'string') {
+                write({
+                    event: errorHandler,
+                    data: error && error.stack || error,
+                    retry: retryOnError
+                })
+            } else {
+                await errorHandler({ errorHandler, retryOnError }, { write, request, response, result })
+            }
+            if(response.writable) {
+                response.end();
+            }
+        }, () => {
+            response.end();
+        });
+        
+        function closeListener() {
+            request.socket.removeListener('close', closeListener);
+            subscription.unsubscribe();
+        }
+        
+        request.socket.addListener('close', closeListener);
+    }
 }), ApplicableAnnotation);
 
 /**
