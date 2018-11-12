@@ -95,6 +95,7 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="nemmodule.html#controller" class="tsd-kind-icon">controller</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="nemmodule.html#middlewares" class="tsd-kind-icon">middlewares</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="nemmodule.html#moduleproviders" class="tsd-kind-icon">module<wbr>Providers</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="nemmodule.html#modules" class="tsd-kind-icon">modules</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="nemmodule.html#providers" class="tsd-kind-icon">providers</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="nemmodule.html#router" class="tsd-kind-icon">router</a></li>
@@ -108,10 +109,10 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 					<a name="controller" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> controller</h3>
-					<div class="tsd-signature tsd-kind-icon">controller<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">RegExp</span><span class="tsd-signature-symbol">, </span><a href="type.html" class="tsd-signature-type">Type</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">[]</span></div>
+					<div class="tsd-signature tsd-kind-icon">controller<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">RegExp</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Type</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/neoskop/nem/blob/857f337/src/metadata/module.ts#L22">metadata/module.ts:22</a></li>
+							<li>Defined in <a href="https://github.com/neoskop/nem/blob/cee7bc8/src/metadata/module.ts#L23">metadata/module.ts:23</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -121,17 +122,27 @@
 					<div class="tsd-signature tsd-kind-icon">middlewares<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/neoskop/nem/blob/857f337/src/metadata/module.ts#L20">metadata/module.ts:20</a></li>
+							<li>Defined in <a href="https://github.com/neoskop/nem/blob/cee7bc8/src/metadata/module.ts#L21">metadata/module.ts:21</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="moduleproviders" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> module<wbr>Providers</h3>
+					<div class="tsd-signature tsd-kind-icon">module<wbr>Providers<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Provider</span><span class="tsd-signature-symbol">[]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/neoskop/nem/blob/cee7bc8/src/metadata/module.ts#L20">metadata/module.ts:20</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 					<a name="modules" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> modules</h3>
-					<div class="tsd-signature tsd-kind-icon">modules<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><a href="type.html" class="tsd-signature-type">Type</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><a href="nemmodulewithproviders.html" class="tsd-signature-type">NemModuleWithProviders</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></div>
+					<div class="tsd-signature tsd-kind-icon">modules<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">Type</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><a href="nemmodulewithproviders.html" class="tsd-signature-type">NemModuleWithProviders</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/neoskop/nem/blob/857f337/src/metadata/module.ts#L18">metadata/module.ts:18</a></li>
+							<li>Defined in <a href="https://github.com/neoskop/nem/blob/cee7bc8/src/metadata/module.ts#L18">metadata/module.ts:18</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -141,7 +152,7 @@
 					<div class="tsd-signature tsd-kind-icon">providers<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Provider</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/neoskop/nem/blob/857f337/src/metadata/module.ts#L19">metadata/module.ts:19</a></li>
+							<li>Defined in <a href="https://github.com/neoskop/nem/blob/cee7bc8/src/metadata/module.ts#L19">metadata/module.ts:19</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -151,7 +162,7 @@
 					<div class="tsd-signature tsd-kind-icon">router<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">RegExp</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Router</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/neoskop/nem/blob/857f337/src/metadata/module.ts#L21">metadata/module.ts:21</a></li>
+							<li>Defined in <a href="https://github.com/neoskop/nem/blob/cee7bc8/src/metadata/module.ts#L22">metadata/module.ts:22</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -177,6 +188,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 								<a href="nemmodule.html#middlewares" class="tsd-kind-icon">middlewares</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="nemmodule.html#moduleproviders" class="tsd-kind-icon">module<wbr>Providers</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 								<a href="nemmodule.html#modules" class="tsd-kind-icon">modules</a>

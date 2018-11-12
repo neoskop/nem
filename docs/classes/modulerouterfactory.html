@@ -118,7 +118,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/neoskop/nem/blob/857f337/src/factories/module-router.ts#L39">factories/module-router.ts:39</a></li>
+									<li>Defined in <a href="https://github.com/neoskop/nem/blob/cee7bc8/src/factories/module-router.ts#L45">factories/module-router.ts:45</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -140,7 +140,7 @@
 					<div class="tsd-signature tsd-kind-icon">injector<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Injector</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/neoskop/nem/blob/857f337/src/factories/module-router.ts#L41">factories/module-router.ts:41</a></li>
+							<li>Defined in <a href="https://github.com/neoskop/nem/blob/cee7bc8/src/factories/module-router.ts#L47">factories/module-router.ts:47</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -151,23 +151,26 @@
 					<a name="createrouterfrommodule" class="tsd-anchor"></a>
 					<h3>create<wbr>Router<wbr>From<wbr>Module</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">create<wbr>Router<wbr>From<wbr>Module<span class="tsd-signature-symbol">(</span>moduleType<span class="tsd-signature-symbol">: </span><a href="../interfaces/type.html" class="tsd-signature-type">Type</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/imodulecontext.html" class="tsd-signature-type">IModuleContext</a></li>
+						<li class="tsd-signature tsd-kind-icon">create<wbr>Router<wbr>From<wbr>Module<span class="tsd-signature-symbol">(</span>moduleType<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Type</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/imodulecontext.html" class="tsd-signature-type">IModuleContext</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/neoskop/nem/blob/857f337/src/factories/module-router.ts#L60">factories/module-router.ts:60</a></li>
+									<li>Defined in <a href="https://github.com/neoskop/nem/blob/cee7bc8/src/factories/module-router.ts#L65">factories/module-router.ts:65</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>moduleType: <a href="../interfaces/type.html" class="tsd-signature-type">Type</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>moduleType: <span class="tsd-signature-type">Type</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
 									<ul class="tsd-parameters">
+										<li class="tsd-parameter">
+											<h5><span class="tsd-flag ts-flagOptional">Optional</span> module<wbr>Providers<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Provider</span><span class="tsd-signature-symbol">[]</span></h5>
+										</li>
 										<li class="tsd-parameter">
 											<h5><span class="tsd-flag ts-flagOptional">Optional</span> router<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">IRouter</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
 										</li>
@@ -182,19 +185,19 @@
 					<a name="handleimport" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> handle<wbr>Import</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">handle<wbr>Import<span class="tsd-signature-symbol">(</span>module<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">RegExp</span><span class="tsd-signature-symbol">, </span><a href="../interfaces/type.html" class="tsd-signature-type">Type</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/nemmodulewithproviders.html" class="tsd-signature-type">NemModuleWithProviders</a><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/type.html" class="tsd-signature-type">Type</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/nemmodulewithproviders.html" class="tsd-signature-type">NemModuleWithProviders</a>, router<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IRouter</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">handle<wbr>Import<span class="tsd-signature-symbol">(</span>module<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">RegExp</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Type</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/nemmodulewithproviders.html" class="tsd-signature-type">NemModuleWithProviders</a><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Type</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/nemmodulewithproviders.html" class="tsd-signature-type">NemModuleWithProviders</a>, router<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IRouter</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/neoskop/nem/blob/857f337/src/factories/module-router.ts#L126">factories/module-router.ts:126</a></li>
+									<li>Defined in <a href="https://github.com/neoskop/nem/blob/cee7bc8/src/factories/module-router.ts#L143">factories/module-router.ts:143</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>module: <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">RegExp</span><span class="tsd-signature-symbol">, </span><a href="../interfaces/type.html" class="tsd-signature-type">Type</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/nemmodulewithproviders.html" class="tsd-signature-type">NemModuleWithProviders</a><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/type.html" class="tsd-signature-type">Type</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/nemmodulewithproviders.html" class="tsd-signature-type">NemModuleWithProviders</a></h5>
+									<h5>module: <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">RegExp</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Type</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/nemmodulewithproviders.html" class="tsd-signature-type">NemModuleWithProviders</a><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Type</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/nemmodulewithproviders.html" class="tsd-signature-type">NemModuleWithProviders</a></h5>
 								</li>
 								<li>
 									<h5>router: <span class="tsd-signature-type">IRouter</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
@@ -214,7 +217,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/neoskop/nem/blob/857f337/src/factories/module-router.ts#L139">factories/module-router.ts:139</a></li>
+									<li>Defined in <a href="https://github.com/neoskop/nem/blob/cee7bc8/src/factories/module-router.ts#L156">factories/module-router.ts:156</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -240,7 +243,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/neoskop/nem/blob/857f337/src/factories/module-router.ts#L147">factories/module-router.ts:147</a></li>
+									<li>Defined in <a href="https://github.com/neoskop/nem/blob/cee7bc8/src/factories/module-router.ts#L164">factories/module-router.ts:164</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -263,23 +266,26 @@
 					<a name="initcontext" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> init<wbr>Context</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">init<wbr>Context<span class="tsd-signature-symbol">(</span>moduleType<span class="tsd-signature-symbol">: </span><a href="../interfaces/type.html" class="tsd-signature-type">Type</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span>, __namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/imodulecontext.html" class="tsd-signature-type">IModuleContext</a></li>
+						<li class="tsd-signature tsd-kind-icon">init<wbr>Context<span class="tsd-signature-symbol">(</span>moduleType<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Type</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span>, __namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/imodulecontext.html" class="tsd-signature-type">IModuleContext</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/neoskop/nem/blob/857f337/src/factories/module-router.ts#L93">factories/module-router.ts:93</a></li>
+									<li>Defined in <a href="https://github.com/neoskop/nem/blob/cee7bc8/src/factories/module-router.ts#L98">factories/module-router.ts:98</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>moduleType: <a href="../interfaces/type.html" class="tsd-signature-type">Type</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>moduleType: <span class="tsd-signature-type">Type</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 								<li>
 									<h5>__namedParameters: <span class="tsd-signature-type">object</span></h5>
 									<ul class="tsd-parameters">
+										<li class="tsd-parameter">
+											<h5>module<wbr>Providers<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Type</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">ClassProvider</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">ValueProvider</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">ExistingProvider</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">StaticClassProvider</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">ConstructorProvider</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">FactoryProvider</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></h5>
+										</li>
 										<li class="tsd-parameter">
 											<h5>router<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Router</span></h5>
 										</li>
@@ -294,19 +300,19 @@
 					<a name="assertmoduleannotation" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> <span class="tsd-flag ts-flagProtected">Protected</span> assert<wbr>Module<wbr>Annotation</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-static tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">assert<wbr>Module<wbr>Annotation<span class="tsd-signature-symbol">(</span>moduleType<span class="tsd-signature-symbol">: </span><a href="../interfaces/type.html" class="tsd-signature-type">Type</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/nemmodule.html" class="tsd-signature-type">NemModule</a></li>
+						<li class="tsd-signature tsd-kind-icon">assert<wbr>Module<wbr>Annotation<span class="tsd-signature-symbol">(</span>moduleType<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Type</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/nemmodule.html" class="tsd-signature-type">NemModule</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/neoskop/nem/blob/857f337/src/factories/module-router.ts#L104">factories/module-router.ts:104</a></li>
+									<li>Defined in <a href="https://github.com/neoskop/nem/blob/cee7bc8/src/factories/module-router.ts#L121">factories/module-router.ts:121</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>moduleType: <a href="../interfaces/type.html" class="tsd-signature-type">Type</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>moduleType: <span class="tsd-signature-type">Type</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="../interfaces/nemmodule.html" class="tsd-signature-type">NemModule</a></h4>
@@ -317,19 +323,19 @@
 					<a name="assertnemmodulewithproviders" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> <span class="tsd-flag ts-flagProtected">Protected</span> assert<wbr>Nem<wbr>Module<wbr>With<wbr>Providers</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-static tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">assert<wbr>Nem<wbr>Module<wbr>With<wbr>Providers<span class="tsd-signature-symbol">(</span>arg<span class="tsd-signature-symbol">: </span><a href="../interfaces/nemmodulewithproviders.html" class="tsd-signature-type">NemModuleWithProviders</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/type.html" class="tsd-signature-type">Type</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/nemmodulewithproviders.html" class="tsd-signature-type">NemModuleWithProviders</a></li>
+						<li class="tsd-signature tsd-kind-icon">assert<wbr>Nem<wbr>Module<wbr>With<wbr>Providers<span class="tsd-signature-symbol">(</span>arg<span class="tsd-signature-symbol">: </span><a href="../interfaces/nemmodulewithproviders.html" class="tsd-signature-type">NemModuleWithProviders</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Type</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/nemmodulewithproviders.html" class="tsd-signature-type">NemModuleWithProviders</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/neoskop/nem/blob/857f337/src/factories/module-router.ts#L116">factories/module-router.ts:116</a></li>
+									<li>Defined in <a href="https://github.com/neoskop/nem/blob/cee7bc8/src/factories/module-router.ts#L133">factories/module-router.ts:133</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>arg: <a href="../interfaces/nemmodulewithproviders.html" class="tsd-signature-type">NemModuleWithProviders</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/type.html" class="tsd-signature-type">Type</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>arg: <a href="../interfaces/nemmodulewithproviders.html" class="tsd-signature-type">NemModuleWithProviders</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Type</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="../interfaces/nemmodulewithproviders.html" class="tsd-signature-type">NemModuleWithProviders</a></h4>
@@ -340,19 +346,19 @@
 					<a name="getproviders" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> get<wbr>Providers</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Providers<span class="tsd-signature-symbol">(</span>moduleType<span class="tsd-signature-symbol">: </span><a href="../interfaces/type.html" class="tsd-signature-type">Type</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Provider</span><span class="tsd-signature-symbol">[]</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Providers<span class="tsd-signature-symbol">(</span>moduleType<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Type</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Provider</span><span class="tsd-signature-symbol">[]</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/neoskop/nem/blob/857f337/src/factories/module-router.ts#L44">factories/module-router.ts:44</a></li>
+									<li>Defined in <a href="https://github.com/neoskop/nem/blob/cee7bc8/src/factories/module-router.ts#L50">factories/module-router.ts:50</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>moduleType: <a href="../interfaces/type.html" class="tsd-signature-type">Type</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>moduleType: <span class="tsd-signature-type">Type</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Provider</span><span class="tsd-signature-symbol">[]</span></h4>

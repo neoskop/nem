@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>OnNull | @neoskop/nem</title>
+	<title>SSE | @neoskop/nem</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,10 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="onnull.html">OnNull</a>
+					<a href="sse.html">SSE</a>
 				</li>
 			</ul>
-			<h1>Interface OnNull</h1>
+			<h1>Interface SSE</h1>
 		</div>
 	</div>
 </header>
@@ -69,7 +69,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Type of OnNull metadata</p>
+						<p>Type of SSE metadata</p>
 					</div>
 				</div>
 			</section>
@@ -80,7 +80,7 @@
 						<a href="../classes/applicableannotation.html" class="tsd-signature-type">ApplicableAnnotation</a>
 						<ul class="tsd-hierarchy">
 							<li>
-								<span class="target">OnNull</span>
+								<span class="target">SSE</span>
 							</li>
 						</ul>
 					</li>
@@ -93,15 +93,16 @@
 						<section class="tsd-index-section tsd-is-external">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="onnull.html#statusorerror" class="tsd-kind-icon">status<wbr>OrError</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="sse.html#errorhandler" class="tsd-kind-icon">error<wbr>Handler</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="sse.html#retryonerror" class="tsd-kind-icon">retry<wbr>OnError</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-inherited tsd-is-external">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="onnull.html#after" class="tsd-kind-icon">after</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="onnull.html#before" class="tsd-kind-icon">before</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="onnull.html#end" class="tsd-kind-icon">end</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="sse.html#after" class="tsd-kind-icon">after</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="sse.html#before" class="tsd-kind-icon">before</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="sse.html#end" class="tsd-kind-icon">end</a></li>
 							</ul>
 						</section>
 					</div>
@@ -110,12 +111,22 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-external">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="statusorerror" class="tsd-anchor"></a>
-					<h3>status<wbr>OrError</h3>
-					<div class="tsd-signature tsd-kind-icon">status<wbr>OrError<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><a href="../classes/httperror.html" class="tsd-signature-type">HttpError</a></div>
+					<a name="errorhandler" class="tsd-anchor"></a>
+					<h3>error<wbr>Handler</h3>
+					<div class="tsd-signature tsd-kind-icon">error<wbr>Handler<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="../globals.html#sseerrorhandler" class="tsd-signature-type">SSEErrorHandler</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/neoskop/nem/blob/cee7bc8/src/metadata/controller.ts#L796">metadata/controller.ts:796</a></li>
+							<li>Defined in <a href="https://github.com/neoskop/nem/blob/cee7bc8/src/metadata/controller.ts#L651">metadata/controller.ts:651</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="retryonerror" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> retry<wbr>OnError</h3>
+					<div class="tsd-signature tsd-kind-icon">retry<wbr>OnError<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/neoskop/nem/blob/cee7bc8/src/metadata/controller.ts#L652">metadata/controller.ts:652</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -257,19 +268,22 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-is-external">
-						<a href="onnull.html" class="tsd-kind-icon">On<wbr>Null</a>
+						<a href="sse.html" class="tsd-kind-icon">SSE</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="onnull.html#statusorerror" class="tsd-kind-icon">status<wbr>OrError</a>
+								<a href="sse.html#errorhandler" class="tsd-kind-icon">error<wbr>Handler</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="sse.html#retryonerror" class="tsd-kind-icon">retry<wbr>OnError</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
-								<a href="onnull.html#after" class="tsd-kind-icon">after</a>
+								<a href="sse.html#after" class="tsd-kind-icon">after</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
-								<a href="onnull.html#before" class="tsd-kind-icon">before</a>
+								<a href="sse.html#before" class="tsd-kind-icon">before</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
-								<a href="onnull.html#end" class="tsd-kind-icon">end</a>
+								<a href="sse.html#end" class="tsd-kind-icon">end</a>
 							</li>
 						</ul>
 					</li>
