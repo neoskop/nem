@@ -4,5 +4,3 @@ scripts:
     bump:
       - yarn run docs
       - git add docs/*
-    postBump:
-      - yarn run build
