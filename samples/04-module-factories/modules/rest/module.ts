@@ -7,13 +7,16 @@ export const DATA = new InjectionToken<{ id: string }[]>('Rest Data');
 @NemModule({
     controller: [
         [ '/', RestController ]
+    ],
+    moduleProviders: [
+        { provide: DATA, useValue: [{ id: 'default', name: 'Default' }]}
     ]
 })
 export class RestModule {
     static forData(data : { id: string }[]) : NemModuleWithProviders {
         return {
             nemModule: RestModule,
-            providers: [
+            moduleProviders: [
                 { provide: DATA, useValue: data }
             ]
         }

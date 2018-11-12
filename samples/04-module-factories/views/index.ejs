@@ -13,6 +13,20 @@
 <body>
     <div class="container">
         <div class="row">
+            <header class="column"><h1>Default</h1></header>
+        </div>
+        <div class="row">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                    </tr>
+                </thead>
+                <tbody class="default"></tbody>
+            </table>
+        </div>
+        <div class="row">
             <header class="column"><h1>Star Trek</h1></header>
         </div>
         <div class="row">
@@ -48,6 +62,19 @@
 
     <script>
         "use strict";
+
+        fetch('/default').then(response => {
+            return response.json();
+        }).then(chars => {
+            const container = document.querySelector('tbody.default');
+
+            for(const char of chars) {
+                container.appendChild(createElement('tr', [
+                    createElement('td', char.id),
+                    createElement('td', char.name)
+                ]))
+            }
+        });
 
         fetch('/star-trek').then(response => {
             return response.json();

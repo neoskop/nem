@@ -1,5 +1,5 @@
 import { InjectionToken } from '@neoskop/injector'
-import { Application, ErrorRequestHandler, RequestHandler } from 'express';
+import { Application, ErrorRequestHandler, RequestHandler, Router } from 'express';
 import { ApplicableAnnotation } from './metadata/controller';
 import { IMiddleware } from './interfaces/middleware';
 import { Server } from 'http';
@@ -48,6 +48,11 @@ export const MIDDLEWARE_AFTER = new InjectionToken<(IMiddleware|RequestHandler)[
  * Provides the express Application
  */
 export const APP = new InjectionToken<Application>('Express Application');
+
+/**
+ * Provides the express router for the current module/controller
+ */
+export const ROUTER = new InjectionToken<Router>('Express Router');
 
 /**
  * Provides the http server

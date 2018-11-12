@@ -6,7 +6,7 @@ import { ParamFactory } from './factories/param';
 import { IModuleContext, ModuleRouterFactory } from './factories/module-router';
 import { NemRootZone } from './zone';
 import {
-    APP, BOOTSTRAP_LISTENER_AFTER, BOOTSTRAP_LISTENER_BEFORE, ERROR_HANDLER, MULTI_TOKENS_FROM_PARENT, SERVER,
+    APP, BOOTSTRAP_LISTENER_AFTER, BOOTSTRAP_LISTENER_BEFORE, ERROR_HANDLER, MULTI_TOKENS_FROM_PARENT, ROUTER, SERVER,
     VIEW_ENGINE,
     VIEWS
 } from './tokens';
@@ -107,6 +107,7 @@ export class NemBootstrap {
                 copyMultiProvider(MULTI_TOKENS_FROM_PARENT, this.injector),
                 { provide: APP, useValue: app },
                 { provide: SERVER, useValue: server },
+                { provide: ROUTER, useValue: server },
                 ...ModuleRouterFactory.getProviders(module)
             ],
             parent: this.injector

@@ -1,7 +1,7 @@
+import { forwardRef, Inject } from '@neoskop/injector';
 import { Get, JsonController, OnUndefined } from '../../../../../src/metadata/controller';
-import { Inject, forwardRef } from '@neoskop/injector';
-import { DATA } from '../module';
 import { Param } from '../../../../../src/metadata/params';
+import { DATA } from '../module';
 
 
 @JsonController()

@@ -43,6 +43,7 @@ const STAR_TREK_DATA = [
 @NemModule({
     modules: [
         IndexModule,
+        [ '/default', RestModule ],
         [ '/star-wars', RestModule.forData(STAR_WARS_DATA) ],
         [ '/star-trek', RestModule.forData(STAR_TREK_DATA) ]
     ]

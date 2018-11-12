@@ -1,15 +1,15 @@
 import { Annotator, Type } from '@neoskop/annotation-factory';
-import { ErrorRequestHandler, NextFunction, Request, RequestHandler, Response, Router } from 'express';
-import { AbstractController, AbstractMethod, ApplicableAnnotation } from '../metadata/controller';
 import { Injectable, Injector, InjectorFactory, Provider } from '@neoskop/injector';
-import { AbstractParam } from '../metadata/params';
-import { ParamFactory } from './param';
-import { NemRootZone } from '../zone';
-import { copyMultiProvider } from '../utils/misc';
-import { DEFAULT_END_HANDLER, MIDDLEWARE_BEFORE, MULTI_TOKENS_FROM_PARENT, MIDDLEWARE_AFTER } from '../tokens';
-import { Result } from '../metadata/result';
-import { Middleware, Use } from '../metadata/middleware';
+import { ErrorRequestHandler, NextFunction, Request, RequestHandler, Response, Router } from 'express';
 import { IMiddleware } from '../interfaces/middleware';
+import { AbstractController, AbstractMethod, ApplicableAnnotation } from '../metadata/controller';
+import { Middleware, Use } from '../metadata/middleware';
+import { AbstractParam } from '../metadata/params';
+import { Result } from '../metadata/result';
+import { DEFAULT_END_HANDLER, MIDDLEWARE_AFTER, MIDDLEWARE_BEFORE, MULTI_TOKENS_FROM_PARENT, ROUTER } from '../tokens';
+import { copyMultiProvider } from '../utils/misc';
+import { NemRootZone } from '../zone';
+import { ParamFactory } from './param';
 
 declare module "express" {
     interface Request {
@@ -91,7 +91,8 @@ export class ControllerRouterFactory {
                 ...copyMultiProvider(MULTI_TOKENS_FROM_PARENT, this.injector),
                 ...providers,
                 ...(ctx.metadata.providers || []),
-                controllerType
+                controllerType,
+                { provide: ROUTER, useValue: ctx.router }
             ]
         });
         ctx.instance = ctx.injector.get(controllerType);
